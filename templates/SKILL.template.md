@@ -9,7 +9,7 @@ Say what the user is trying to get done and how the assistant should help, in sh
 
 Tools used: tool_name_one, tool_name_two
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

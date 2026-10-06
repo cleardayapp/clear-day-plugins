@@ -1,0 +1,14 @@
+{
+  "name": "clear-day-plugins",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Clear Day plugins for childcare directors and families.",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": "https://github.com/cleardayapp/clear-day-plugins",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node scripts/validate.mjs && node scripts/lint-wording.mjs && node --test scripts/__tests__"
+  }
+}

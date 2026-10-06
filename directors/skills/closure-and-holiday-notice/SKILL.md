@@ -49,7 +49,7 @@ If an email app is connected, offer to hand the full version to it as a draft fo
 
 If `create_school_calendar_event` is available, offer to add the closure to the school calendar. Show the title, date and time, and add it only after the director confirms. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and suggest the director note the closure in their own calendar.
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

@@ -92,7 +92,7 @@ Offer to shorten the plan into a one-page checklist, or to write a short note to
 
 Tools used: none
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

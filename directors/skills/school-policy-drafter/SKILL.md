@@ -56,7 +56,7 @@ If a document app is connected, offer to save the draft there. If an email app i
 
 If `get_state_child_care_resources` is available, call it for the director's state and put the agency link it returns next to the verify list, citing the link. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and tell the director to look up the state child care licensing agency's website themselves.
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

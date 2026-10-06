@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Wording lint for skills, manifests and READMEs. Plain Node, no dependencies.
-// Usage: node plugins/scripts/lint-wording.mjs [pluginsRoot]
+// Usage: node scripts/lint-wording.mjs [repoRoot]
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
