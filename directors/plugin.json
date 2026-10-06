@@ -1,0 +1,34 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "clear-day-for-directors",
+  "version": "0.1.0",
+  "description": "Skills for childcare directors: answer enrollment inquiries, prepare tours and look up licensing sources, with optional sign-in to Clear Day.",
+  "author": {
+    "name": "Clear Day",
+    "url": "https://useclearday.com"
+  },
+  "homepage": "https://useclearday.com",
+  "keywords": [
+    "childcare",
+    "enrollment",
+    "directors",
+    "licensing"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Clear Day for Directors",
+        "shortDescription": "Enrollment, tours & licensing",
+        "developerName": "Clear Day",
+        "websiteURL": "https://useclearday.com",
+        "defaultPrompt": [
+          "Show me my open enrollment inquiries and which ones need a reply.",
+          "Help me prepare for tomorrow's tours.",
+          "Find the official source for my state's staff-to-child ratio rules."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "clear-day-for-parents",
+  "version": "0.1.0",
+  "description": "Skills for families: find licensed daycare near you, compare centers and plan how to pay, using public licensing records.",
+  "author": {
+    "name": "Clear Day",
+    "url": "https://useclearday.com"
+  },
+  "homepage": "https://useclearday.com",
+  "keywords": [
+    "childcare",
+    "daycare",
+    "parents",
+    "licensing"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Clear Day for Parents",
+        "shortDescription": "Find licensed daycare near you",
+        "developerName": "Clear Day",
+        "websiteURL": "https://useclearday.com",
+        "defaultPrompt": [
+          "Find licensed daycare centers near me.",
+          "Compare two daycare centers side by side.",
+          "Help me plan how to pay for child care."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png"
+      }
+    }
+  }
+}

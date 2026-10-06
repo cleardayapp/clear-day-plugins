@@ -1,0 +1,17 @@
+{
+  "name": "clear-day-for-directors",
+  "displayName": "Clear Day for Directors",
+  "version": "0.1.0",
+  "description": "Skills for childcare directors: answer enrollment inquiries, prepare tours and look up licensing sources, with optional sign-in to Clear Day.",
+  "author": {
+    "name": "Clear Day",
+    "url": "https://useclearday.com"
+  },
+  "homepage": "https://useclearday.com",
+  "keywords": [
+    "childcare",
+    "enrollment",
+    "directors",
+    "licensing"
+  ]
+}
