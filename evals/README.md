@@ -27,7 +27,7 @@ Node 20 or newer, no dependencies. The check exits non-zero on any problem.
 
 ## Record a manual pass
 
-1. Directors: sign in to a FREE-plan demo school. Parents: use the connector anonymously.
+1. Directors: sign in to a FREE-plan demo school for every case with `plan: "FREE"` (this covers all submission cases). Cases marked `RUN` or `GROW` need a demo school on that plan (or higher) to reach their tool; run them separately. Parents: use the connector anonymously.
 2. In Claude, add the connector, start a new chat, and paste each case's `prompt`.
 3. Repeat in ChatGPT with the app enabled.
 4. For each case, note whether the expected tool was called (or no tool for `{none: true}`), whether the behavior matched `expectedBehavior`, and the date. Keep results outside this repo.
