@@ -8,7 +8,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_school_profile",
@@ -17,7 +18,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_plan_and_usage",
@@ -26,7 +28,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_school_website_status",
@@ -35,7 +38,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_school_website_results",
@@ -44,7 +48,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "propose_school_website_change",
@@ -54,7 +59,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "destructive": true
+      "destructive": true,
+      "status": "live"
     },
     {
       "name": "get_enrollment_lead_summary",
@@ -63,7 +69,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "list_enrollment_leads",
@@ -72,7 +79,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "prepare_lead_follow_up",
@@ -81,7 +89,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "update_enrollment_lead_stage",
@@ -91,7 +100,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "destructive": true
+      "destructive": true,
+      "status": "live"
     },
     {
       "name": "get_school_tour_availability",
@@ -100,7 +110,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "list_school_tours",
@@ -109,7 +120,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "book_school_tour",
@@ -119,7 +131,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "destructive": true
+      "destructive": true,
+      "status": "live"
     },
     {
       "name": "list_school_calendar_events",
@@ -128,7 +141,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "create_school_calendar_event",
@@ -138,7 +152,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "destructive": true
+      "destructive": true,
+      "status": "live"
     },
     {
       "name": "prepare_open_house_kit",
@@ -147,7 +162,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "list_school_closings",
@@ -156,7 +172,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "search_clear_day_help",
@@ -166,7 +183,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "new": true
+      "new": true,
+      "status": "live"
     },
     {
       "name": "get_clear_day_help_article",
@@ -176,7 +194,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "new": true
+      "new": true,
+      "status": "live"
     },
     {
       "name": "get_child_care_tour_times",
@@ -186,7 +205,8 @@
         "GROW"
       ],
       "signedIn": true,
-      "new": true
+      "new": true,
+      "status": "live"
     },
     {
       "name": "get_school_overview",
@@ -194,7 +214,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_roster_summary",
@@ -202,7 +223,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_staffing_today",
@@ -210,7 +232,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_staffing_lookahead",
@@ -218,7 +241,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_billing_health",
@@ -226,7 +250,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_billing_anomalies",
@@ -234,7 +259,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_inspection_readiness",
@@ -242,7 +268,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_paperwork_completeness",
@@ -250,7 +277,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_curriculum_coverage",
@@ -258,35 +286,100 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_enrollment_funnel",
       "plans": [
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_enrollment_pipeline",
       "plans": [
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_pipeline_board_summary",
       "plans": [
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
     },
     {
       "name": "get_churn_analysis",
       "plans": [
         "GROW"
       ],
-      "signedIn": true
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_state_child_care_ratios",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "check_child_care_staffing_ratio",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_child_care_market_stats",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_state_child_care_resources",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "explain_child_care_license_types",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "find_licensed_child_care",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
     }
   ]
 }

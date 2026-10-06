@@ -9,6 +9,10 @@ Test cases for the OpenAI app and Anthropic connector submissions, one file per 
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
 | `export-submission.mjs` | Prints the submission cases as a Markdown table. |
 
+Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not built yet but are expected to ship before submission, so they have cases too. `check.mjs` prints how many cases depend on them. Directors submission cases must use live tools; the parents set reflects the finished product. When a planned tool ships, flip its `status` to `live`.
+
+The export columns are `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. OpenAI's submission guidelines were not reachable when this was written, so re-check the columns against the live submission form before submitting.
+
 Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
 
 ## Run the check

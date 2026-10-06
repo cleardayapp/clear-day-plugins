@@ -15,9 +15,9 @@ const { cases } = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta
 const cell = (s) => String(s).replace(/\|/g, '\\|').replace(/\s*\n\s*/g, ' ');
 const sub = cases.filter((c) => c.submission);
 const rows = [...sub.filter((c) => c.kind !== 'negative'), ...sub.filter((c) => c.kind === 'negative')];
-console.log('| # | Kind | Prompt | Expected tool | Expected behavior |');
+console.log('| id | kind | prompt | expectedTool | expectedBehavior |');
 console.log('| --- | --- | --- | --- | --- |');
-rows.forEach((c, n) => {
+rows.forEach((c) => {
   const kind = c.kind === 'negative' ? 'negative' : 'positive';
-  console.log(`| ${n + 1} | ${kind} | ${cell(c.prompt)} | ${c.expect.tool ? `\`${c.expect.tool}\`` : 'none'} | ${cell(c.expectedBehavior)} |`);
+  console.log(`| ${c.id} | ${kind} | ${cell(c.prompt)} | ${c.expect.tool ? `\`${c.expect.tool}\`` : 'none'} | ${cell(c.expectedBehavior)} |`);
 });

@@ -9,7 +9,7 @@ const PLUGINS = ['directors', 'parents'];
 const KINDS = ['direct', 'indirect', 'negative'];
 const PLANS = ['FREE', 'RUN', 'GROW'];
 const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall']);
-const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'new']);
+const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'new', 'status']);
 
 const EMAIL = /[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}/g;
 const BIRTH_DATE = /\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\/\d{1,2}\/(\d{2}|\d{4})\b|\b(born|birthday|birth date|date of birth|dob)\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2},? \d{4}\b/i;
@@ -38,6 +38,7 @@ for (const p of PLUGINS) {
     if (names.has(t.name)) err(`${where}: duplicate tool ${t.name}`);
     names.add(t.name);
     if (!Array.isArray(t.plans) || !t.plans.length || !t.plans.every((x) => PLANS.includes(x))) err(`${where}: ${t.name}: plans must be a non-empty subset of ${PLANS}`);
+    if (!['live', 'planned'].includes(t.status)) err(`${where}: ${t.name}: status must be "live" or "planned"`);
     if (typeof t.signedIn !== 'boolean') err(`${where}: ${t.name}: signedIn must be boolean`);
   }
   lists[p] = new Map((l.tools || []).map((t) => [t.name, t]));
@@ -54,7 +55,7 @@ for (const p of PLUGINS) {
   const cases = Array.isArray(data.cases) ? data.cases : [];
   if (!cases.length) err(`${file}: cases must be a non-empty array`);
   const covered = new Set();
-  let pos = 0, neg = 0, subPos = 0, subNeg = 0;
+  let planned = 0, pos = 0, neg = 0, subPos = 0, subNeg = 0;
 
   for (const c of cases) {
     const at = `${file}: ${c.id || '(no id)'}`;
@@ -83,6 +84,8 @@ for (const p of PLUGINS) {
     const positive = c.kind === 'direct' || c.kind === 'indirect';
     positive ? pos++ : c.kind === 'negative' && neg++;
     if (positive && !hasTool) err(`${at}: ${c.kind} cases must expect a tool`);
+    if (tool?.status === 'planned') planned++;
+    if (tool?.status === 'planned' && c.submission && p === 'directors') err(`${at}: directors submission cases must use live tools (${e.tool} is planned)`);
     if (tool) {
       if (positive) covered.add(e.tool);
       if (tool.signedIn && c.signedIn !== true) err(`${at}: ${e.tool} needs sign-in but signedIn is not true`);
@@ -119,7 +122,7 @@ for (const p of PLUGINS) {
   if (subPos !== 5) err(`${file}: need exactly 5 positive submission cases (have ${subPos})`);
   if (subNeg !== 3) err(`${file}: need exactly 3 negative submission cases (have ${subNeg})`);
   for (const name of tools.keys()) if (!covered.has(name)) err(`${file}: no positive case for tool ${name}`);
-  summary.push(`${p}: ${cases.length} cases (${pos} positive, ${neg} negative); submission ${subPos}+${subNeg}; ${covered.size}/${tools.size} tools covered`);
+  summary.push(`${p}: ${cases.length} cases (${pos} positive, ${neg} negative); submission ${subPos}+${subNeg}; ${covered.size}/${tools.size} tools covered; ${planned} case(s) depend on planned tools`);
 }
 
 if (errors.length) {

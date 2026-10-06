@@ -403,6 +403,78 @@
       "notes": "GROW+ only; internal coverage, not in submission set."
     },
     {
+      "id": "dir-state-child-care-ratios",
+      "prompt": "What are the required staff-to-child ratios for two-year-olds in Texas?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_state_child_care_ratios"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Returns the state ratio for the age group and says which agency publishes it.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-check-child-care-staffing-ratio",
+      "prompt": "I have 2 teachers and 17 three-year-olds in a classroom in Ohio. Are we within ratio?",
+      "kind": "direct",
+      "expect": {
+        "tool": "check_child_care_staffing_ratio"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Compares the classroom to the state ratio and says plainly whether it is within or over, and by how much.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-child-care-market-stats",
+      "prompt": "How many licensed child care programs are in Travis County, Texas, and what is the typical capacity?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_child_care_market_stats"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Returns the market statistics for the area with their source, without guessing numbers.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-state-child-care-resources",
+      "prompt": "Where do I find licensing resources for a child care program in Georgia?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_state_child_care_resources"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Links the state licensing agency and resources the tool returns.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-explain-child-care-license-types",
+      "prompt": "What is the difference between a family child care home license and a center license?",
+      "kind": "direct",
+      "expect": {
+        "tool": "explain_child_care_license_types"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Explains the license types in plain language and notes the state may vary.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-find-licensed-child-care",
+      "prompt": "Which licensed child care programs are near ZIP 78701?",
+      "kind": "direct",
+      "expect": {
+        "tool": "find_licensed_child_care"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Lists nearby licensed programs the tool returns, with licensing details.",
+      "notes": "planned. Anonymous use is allowed."
+    },
+    {
       "id": "dir-neg-landlord-email",
       "prompt": "Write me a generic email to my landlord asking to fix the leaky faucet.",
       "kind": "negative",

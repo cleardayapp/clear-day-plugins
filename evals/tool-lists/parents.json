@@ -8,7 +8,8 @@
         "RUN",
         "GROW"
       ],
-      "signedIn": false
+      "signedIn": false,
+      "status": "live"
     },
     {
       "name": "request_child_care_tour",
@@ -18,7 +19,68 @@
         "GROW"
       ],
       "signedIn": false,
-      "destructive": true
+      "destructive": true,
+      "status": "live"
+    },
+    {
+      "name": "find_licensed_child_care",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_child_care_provider",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "compare_child_care_providers",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "explain_child_care_license_types",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_state_child_care_resources",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_child_care_help_paying",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
     }
   ]
 }

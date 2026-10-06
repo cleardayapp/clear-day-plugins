@@ -22,8 +22,7 @@
       },
       "signedIn": false,
       "expectedBehavior": "Looks up open tour times and offers them.",
-      "notes": "",
-      "submission": true
+      "notes": ""
     },
     {
       "id": "par-tour-times-weekend",
@@ -34,12 +33,11 @@
       },
       "signedIn": false,
       "expectedBehavior": "Checks open tour times and says whether any fall on a Saturday.",
-      "notes": "",
-      "submission": true
+      "notes": ""
     },
     {
       "id": "par-request-tour",
-      "prompt": "Book the Tuesday 10:00 tour at Little Oaks Early Learning (facility 1001) for me. I am Jordan Sample, jordan.sample@example.com.",
+      "prompt": "Yes, please go ahead and book the Tuesday 10:00 tour at Little Oaks Early Learning (facility 1001). I am Jordan Sample, jordan.sample@example.com.",
       "kind": "direct",
       "expect": {
         "tool": "request_child_care_tour"
@@ -58,8 +56,76 @@
       },
       "signedIn": false,
       "expectedBehavior": "Requests the tour with the parent's details only and explains the confirmation email step.",
-      "notes": "",
+      "notes": ""
+    },
+    {
+      "id": "par-find-licensed-zip",
+      "prompt": "I need child care for my toddler near ZIP 94110. What licensed options are there?",
+      "kind": "direct",
+      "expect": {
+        "tool": "find_licensed_child_care"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Lists nearby licensed programs the tool returns that serve toddlers, and offers to compare or check tour times.",
+      "notes": "planned",
       "submission": true
+    },
+    {
+      "id": "par-compare-providers",
+      "prompt": "Can you compare Little Oaks Early Learning and Maple Street Preschool for me?",
+      "kind": "direct",
+      "expect": {
+        "tool": "compare_child_care_providers"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Compares the two providers side by side using tool data only, and does not recommend one as best.",
+      "notes": "planned",
+      "submission": true
+    },
+    {
+      "id": "par-help-paying",
+      "prompt": "What help is there paying for child care in Ohio?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_child_care_help_paying"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Summarizes the state assistance options the tool returns and links the official source.",
+      "notes": "planned",
+      "submission": true
+    },
+    {
+      "id": "par-provider-details",
+      "prompt": "Tell me about Little Oaks Early Learning: license status, ages served, and hours.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_child_care_provider"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Summarizes the provider details the tool returns.",
+      "notes": "planned"
+    },
+    {
+      "id": "par-license-types",
+      "prompt": "What do the different child care license types mean?",
+      "kind": "direct",
+      "expect": {
+        "tool": "explain_child_care_license_types"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Explains the license types in plain language and notes the state may vary.",
+      "notes": "planned"
+    },
+    {
+      "id": "par-state-resources",
+      "prompt": "Where can I look up licensing information for child care in Georgia?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_state_child_care_resources"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Links the state agency and resources the tool returns.",
+      "notes": "planned"
     },
     {
       "id": "par-neg-weather",
