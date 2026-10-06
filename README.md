@@ -70,4 +70,4 @@ There are no `commands/`, `agents/` or `bin/` folders and no `userConfig`; the v
 
 ## License
 
-Proprietary. See `LICENSE`.
+Proprietary, with a free grant to install and use the plugins unmodified. See `LICENSE`.
