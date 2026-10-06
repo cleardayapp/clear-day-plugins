@@ -226,3 +226,15 @@ test("manifest metadata: repository, license and matching versions are required"
   expectFail("manifest-license", (r) => editJson(D(r, ".claude-plugin", "plugin.json"), (j) => delete j.license));
   expectFail("manifest-version", (r) => editJson(D(r, "plugin.json"), (j) => (j.version = "9.9.9")));
 });
+
+test("openai-legal-urls: both https URLs pass, missing or non-https fails", () => {
+  const oa = (r, plugin = "directors") => path.join(r, plugin, "plugin.json");
+  for (const plugin of ["directors", "parents"]) {
+    for (const key of ["privacyPolicyURL", "termsOfServiceURL"]) {
+      expectFail("openai-legal-urls", (r) => editJson(oa(r, plugin), (j) => delete j.extensions["com.openai"].interface[key]));
+      expectFail("openai-legal-urls", (r) =>
+        editJson(oa(r, plugin), (j) => (j.extensions["com.openai"].interface[key] = "http://useclearday.com/terms")));
+    }
+  }
+  assert.deepEqual(validate(fixture()), []);
+});

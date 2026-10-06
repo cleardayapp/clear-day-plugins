@@ -29,7 +29,11 @@
           "Help me plan how to pay for child care."
         ],
         "logo": "./assets/logo.png",
-        "composerIcon": "./assets/composer-icon.png"
+        "composerIcon": "./assets/composer-icon.png",
+        "longDescription": "Skills for parents and guardians (adults) who are looking for child care: find licensed daycare centers near you, compare them side by side, prepare questions for a tour and plan how to pay, using public licensing records. You can also ask the assistant to request a tour; Clear Day then emails you a confirmation link, and nothing is sent to the provider until you confirm. This plugin is for adults, not for children.",
+        "category": "Lifestyle",
+        "privacyPolicyURL": "https://useclearday.com/privacy-policy#connectors",
+        "termsOfServiceURL": "https://useclearday.com/terms"
       }
     }
   }

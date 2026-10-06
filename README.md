@@ -7,7 +7,7 @@ Two plugins that add Clear Day skills to an AI assistant, one for childcare dire
 | `directors/` | `clear-day-for-directors` | Childcare directors: enrollment inquiries, tours, open houses, the school website, notices and policies | `https://mcp.useclearday.com/mcp` |
 | `parents/` | `clear-day-for-parents` | Families: finding and comparing licensed daycare | `https://mcp.useclearday.com/mcp/find` |
 
-The skills in this repo are instructions. The tools they call (listing leads, finding tour times, looking up licensing records and so on) come from each plugin's Clear Day connector, which the plugin registers for you. Directors sign in to Clear Day the first time a skill needs school data. The parents plugin reads public records and needs no sign-in.
+The skills in this repo are instructions. The tools they call (listing leads, finding tour times, searching public childcare records and so on) come from each plugin's Clear Day connector, which the plugin registers for you. Every call to the Directors connector requires signing in with a Clear Day director or teacher account. The Parents plugin is for adults (parents and guardians) looking for child care, reads public records and needs no sign-in; its one write is a tour request, which makes Clear Day email the parent a confirmation link.
 
 ## Install in Claude Code
 
@@ -23,7 +23,7 @@ Each plugin folder is also a standalone package for other assistants that read a
 
 ## Privacy
 
-The skills never ask for, accept or repeat a child's name, birth date, photo or health details. They use an age group instead. Each plugin's README lists exactly what it sends and fetches. The plugins store nothing themselves, and the assistant confirms with you before any change and never sends a message for you.
+The skills never ask for, accept or repeat a child's name, birth date, photo or health details. They use an age group instead. Each plugin's README lists exactly what it sends and fetches. The plugins store nothing themselves, and the assistant confirms with you before any change or message and only sends what you explicitly approved.
 
 ## Repo layout
 
