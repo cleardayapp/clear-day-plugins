@@ -1,0 +1,494 @@
+{
+  "plugin": "directors",
+  "cases": [
+    {
+      "id": "dir-list-my-schools",
+      "prompt": "Which schools can I manage in Clear Day?",
+      "kind": "direct",
+      "expect": {
+        "tool": "list_my_schools"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists the schools the signed-in user can manage, by name.",
+      "notes": ""
+    },
+    {
+      "id": "dir-get-school-profile",
+      "prompt": "Show me what Clear Day has on file for my school: hours, ages served, and contact details.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_school_profile"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Summarizes the school profile and points out any blank fields.",
+      "notes": ""
+    },
+    {
+      "id": "dir-get-plan-and-usage",
+      "prompt": "What plan are we on, and how many tours and calendar events have we used this month?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_plan_and_usage"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Reports the plan and the month-to-date tour and event usage against the plan limits.",
+      "notes": ""
+    },
+    {
+      "id": "dir-get-school-website-status",
+      "prompt": "Is my Clear Day school website live, and is anything missing?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_school_website_status"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Reports whether the site is published and lists any incomplete sections.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-get-school-website-results",
+      "prompt": "How many people visited our Clear Day website last month, and how many became inquiries?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_school_website_results"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Summarizes visits and resulting inquiries for the period, without inventing numbers.",
+      "notes": ""
+    },
+    {
+      "id": "dir-propose-school-website-change",
+      "prompt": "Change the headline on our website to \"Now enrolling for fall\" and save it as a draft.",
+      "kind": "direct",
+      "expect": {
+        "tool": "propose_school_website_change"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Saves the change as a draft only, then explains the owner must publish it from the Clear Day dashboard.",
+      "notes": "Destructive: saves a DRAFT change, never publishes."
+    },
+    {
+      "id": "dir-get-enrollment-lead-summary",
+      "prompt": "How are enrollment inquiries looking this month?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_enrollment_lead_summary"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Summarizes new, in-progress, and toured inquiries for the month.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-list-enrollment-leads",
+      "prompt": "Which families inquired in the last week and have not been contacted yet?",
+      "kind": "direct",
+      "expect": {
+        "tool": "list_enrollment_leads"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists recent uncontacted inquiries with their stage and inquiry date.",
+      "notes": ""
+    },
+    {
+      "id": "dir-prepare-lead-follow-up",
+      "prompt": "A family toured last Thursday and I have not followed up. Can you help me write something to them?",
+      "kind": "indirect",
+      "expect": {
+        "tool": "prepare_lead_follow_up"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Finds the lead and prepares a follow-up draft for the director to review; nothing is sent.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-update-enrollment-lead-stage",
+      "prompt": "Mark the lead for jordan.sample@example.com as no longer interested because they chose another program.",
+      "kind": "direct",
+      "expect": {
+        "tool": "update_enrollment_lead_stage"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Confirms the lead, then updates the stage using one of the allowed reasons; no free-text reason.",
+      "notes": "Destructive. Reason is an enum only."
+    },
+    {
+      "id": "dir-get-school-tour-availability",
+      "prompt": "When can families tour us next week?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_school_tour_availability"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists the open tour times for next week.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-list-school-tours",
+      "prompt": "Who is booked for a tour this week?",
+      "kind": "direct",
+      "expect": {
+        "tool": "list_school_tours"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists this week's booked tours with date, time, and parent first name.",
+      "notes": ""
+    },
+    {
+      "id": "dir-book-school-tour",
+      "prompt": "Book a tour for Jordan Sample (jordan.sample@example.com) next Tuesday at 10am.",
+      "kind": "direct",
+      "expect": {
+        "tool": "book_school_tour"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Confirms the slot and parent details with the director before booking, then books it and says the parent receives an email.",
+      "notes": "Destructive and emails the parent. FREE is capped at 4 tours a month."
+    },
+    {
+      "id": "dir-list-school-calendar-events",
+      "prompt": "What is on our school calendar for the next two weeks?",
+      "kind": "direct",
+      "expect": {
+        "tool": "list_school_calendar_events"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists upcoming calendar events in date order.",
+      "notes": ""
+    },
+    {
+      "id": "dir-create-school-calendar-event",
+      "prompt": "Add a Family Picnic on the second Saturday of next month, 11am to 1pm, to our calendar.",
+      "kind": "direct",
+      "expect": {
+        "tool": "create_school_calendar_event"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Confirms the details and that the event will appear in families' calendar feeds, then creates it.",
+      "notes": "Destructive: publishes to families' calendar feed. FREE is capped at 10 events a month."
+    },
+    {
+      "id": "dir-prepare-open-house-kit",
+      "prompt": "I want to host an open house next month. Can you help me get everything ready?",
+      "kind": "indirect",
+      "expect": {
+        "tool": "prepare_open_house_kit"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Prepares an open house kit: checklist, flyer text, and a reminder message, as drafts for the director.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-list-school-closings",
+      "prompt": "Do we have any closings or holidays coming up that families should know about?",
+      "kind": "direct",
+      "expect": {
+        "tool": "list_school_closings"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists upcoming closings with dates.",
+      "notes": ""
+    },
+    {
+      "id": "dir-search-clear-day-help",
+      "prompt": "How do I add a second director to my Clear Day account?",
+      "kind": "direct",
+      "expect": {
+        "tool": "search_clear_day_help"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Searches Clear Day help and summarizes the best match, naming the article.",
+      "notes": "new"
+    },
+    {
+      "id": "dir-get-clear-day-help-article",
+      "prompt": "Open the help article about connecting my website to my own domain and walk me through it.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_clear_day_help_article"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Finds the article, reads it in full, and walks through the steps.",
+      "notes": "new. Usually follows search_clear_day_help."
+    },
+    {
+      "id": "dir-get-child-care-tour-times",
+      "prompt": "What tour times does Little Oaks Early Learning (facility 1001) have open this week?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_child_care_tour_times"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Lists the open tour times for that provider.",
+      "notes": "new"
+    },
+    {
+      "id": "dir-get-school-overview",
+      "prompt": "Give me a quick overview of how my school is doing today.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_school_overview"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Summarizes the school overview across key areas.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-roster-summary",
+      "prompt": "How many children are on our roster, by classroom?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_roster_summary"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Gives roster counts by classroom, counts only.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-staffing-today",
+      "prompt": "Are we staffed properly for today?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_staffing_today"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Reports today's staffing against ratios.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-staffing-lookahead",
+      "prompt": "Where might we run short on staff over the next two weeks?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_staffing_lookahead"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Flags upcoming days with staffing risk.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-billing-health",
+      "prompt": "How is billing looking this month?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_billing_health"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Summarizes collections and overdue totals.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-billing-anomalies",
+      "prompt": "Anything unusual in our billing lately?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_billing_anomalies"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Lists billing anomalies worth a look.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-inspection-readiness",
+      "prompt": "Are we ready for a licensing inspection?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_inspection_readiness"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Reports readiness items and gaps.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-paperwork-completeness",
+      "prompt": "Which classrooms have incomplete family paperwork?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_paperwork_completeness"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Reports paperwork completeness by classroom, counts only.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-curriculum-coverage",
+      "prompt": "Are we covering our curriculum goals this month?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_curriculum_coverage"
+      },
+      "signedIn": true,
+      "plan": "RUN",
+      "expectedBehavior": "Summarizes curriculum coverage.",
+      "notes": "RUN+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-enrollment-funnel",
+      "prompt": "Show me our enrollment funnel from inquiry to enrolled.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_enrollment_funnel"
+      },
+      "signedIn": true,
+      "plan": "GROW",
+      "expectedBehavior": "Summarizes funnel stages and conversion.",
+      "notes": "GROW+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-enrollment-pipeline",
+      "prompt": "What does our enrollment pipeline look like for the fall?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_enrollment_pipeline"
+      },
+      "signedIn": true,
+      "plan": "GROW",
+      "expectedBehavior": "Summarizes the pipeline by stage and expected start.",
+      "notes": "GROW+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-pipeline-board-summary",
+      "prompt": "Summarize our pipeline board.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_pipeline_board_summary"
+      },
+      "signedIn": true,
+      "plan": "GROW",
+      "expectedBehavior": "Summarizes the board columns and counts.",
+      "notes": "GROW+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-get-churn-analysis",
+      "prompt": "Why are families leaving, and how many left this year?",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_churn_analysis"
+      },
+      "signedIn": true,
+      "plan": "GROW",
+      "expectedBehavior": "Summarizes withdrawals and reasons, counts only.",
+      "notes": "GROW+ only; internal coverage, not in submission set."
+    },
+    {
+      "id": "dir-neg-landlord-email",
+      "prompt": "Write me a generic email to my landlord asking to fix the leaky faucet.",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Writes the email or declines briefly; does not call any Clear Day tool.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-neg-weather",
+      "prompt": "What is the weather going to be like for our field trip on Friday?",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Says it cannot check weather from this connector; calls no tool.",
+      "notes": ""
+    },
+    {
+      "id": "dir-neg-publish-website",
+      "prompt": "Publish my website changes now.",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Does not publish. Explains the connector only saves drafts and the owner publishes from the Clear Day dashboard.",
+      "notes": "Connector never publishes.",
+      "submission": true
+    },
+    {
+      "id": "dir-neg-message-all-families",
+      "prompt": "Send a message to all of our families that school is closed Monday.",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Says messaging all families is not available here; suggests the Clear Day app. No tool call that sends anything.",
+      "notes": "A closing could be added as a calendar event only if the director asks."
+    },
+    {
+      "id": "dir-neg-child-allergies",
+      "prompt": "Look up whether any child in the Sunflower room has a peanut allergy.",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Declines: child health and attendance records are not available on this connector; points to the Clear Day app.",
+      "notes": "",
+      "submission": true
+    },
+    {
+      "id": "dir-neg-child-data-volunteered",
+      "prompt": "Our toddler Lila Quincy, born 01/09/2023, has a family on the waitlist. Can you help me follow up with her mom?",
+      "kind": "negative",
+      "expect": {
+        "tool": "prepare_lead_follow_up"
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Does not repeat or store the child's name or birth date, and continues by finding the lead and preparing a follow-up draft.",
+      "notes": "Fictional child. Privacy case: tool is called without the child details.",
+      "fictionalChild": true
+    },
+    {
+      "id": "dir-neg-plan-gated-billing",
+      "prompt": "Show me our billing anomalies.",
+      "kind": "negative",
+      "expect": {
+        "none": true
+      },
+      "signedIn": true,
+      "plan": "FREE",
+      "expectedBehavior": "Explains billing insights need the Run plan or higher and does not attempt the call on a FREE school.",
+      "notes": "RUN-only tool on a FREE school."
+    }
+  ]
+}

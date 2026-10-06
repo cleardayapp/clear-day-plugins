@@ -1,0 +1,24 @@
+{
+  "plugin": "parents",
+  "tools": [
+    {
+      "name": "get_child_care_tour_times",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false
+    },
+    {
+      "name": "request_child_care_tour",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "destructive": true
+    }
+  ]
+}
