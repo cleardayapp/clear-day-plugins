@@ -1,0 +1,385 @@
+{
+  "plugin": "directors",
+  "tools": [
+    {
+      "name": "list_my_schools",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_school_profile",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_plan_and_usage",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_school_website_status",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_school_website_results",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "propose_school_website_change",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "destructive": true,
+      "status": "live"
+    },
+    {
+      "name": "get_enrollment_lead_summary",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "list_enrollment_leads",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "prepare_lead_follow_up",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "update_enrollment_lead_stage",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "destructive": true,
+      "status": "live"
+    },
+    {
+      "name": "get_school_tour_availability",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "list_school_tours",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "book_school_tour",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "destructive": true,
+      "status": "live"
+    },
+    {
+      "name": "list_school_calendar_events",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "create_school_calendar_event",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "destructive": true,
+      "status": "live"
+    },
+    {
+      "name": "prepare_open_house_kit",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "list_school_closings",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "search_clear_day_help",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "new": true,
+      "status": "live"
+    },
+    {
+      "name": "get_clear_day_help_article",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "new": true,
+      "status": "live"
+    },
+    {
+      "name": "get_child_care_tour_times",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "new": true,
+      "status": "live"
+    },
+    {
+      "name": "get_school_overview",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_roster_summary",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_staffing_today",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_staffing_lookahead",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_billing_health",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_billing_anomalies",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_inspection_readiness",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_paperwork_completeness",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_curriculum_coverage",
+      "plans": [
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_enrollment_funnel",
+      "plans": [
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_enrollment_pipeline",
+      "plans": [
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_pipeline_board_summary",
+      "plans": [
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_churn_analysis",
+      "plans": [
+        "GROW"
+      ],
+      "signedIn": true,
+      "status": "live"
+    },
+    {
+      "name": "get_state_child_care_ratios",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "check_child_care_staffing_ratio",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_child_care_market_stats",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "get_state_child_care_resources",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "explain_child_care_license_types",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    },
+    {
+      "name": "find_licensed_child_care",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "planned"
+    }
+  ]
+}

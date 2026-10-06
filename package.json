@@ -9,6 +9,6 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "node scripts/validate.mjs && node scripts/lint-wording.mjs && node --test scripts/__tests__"
+    "check": "node scripts/validate.mjs && node scripts/lint-wording.mjs && node evals/check.mjs && node --test scripts/__tests__"
   }
 }
