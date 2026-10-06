@@ -15,12 +15,12 @@ The director wants to put a tour on the calendar for a family that has already i
 
 ## Steps
 
-1. Ask the director which family, by the parent's first name and, if there is more than one match, the stage. Call `list_enrollment_leads` to find the lead (or `prepare_lead_follow_up` if the director is already working on one). Do not search free text.
+1. Ask the director which family, by the parent's first name and, if there is more than one match, the stage. Call `list_enrollment_leads` to find the lead (or `prepare_lead_follow_up` if the director is already working on one). Do not search free text. If the lead is not in the list, ask the director for more detail instead of guessing.
 2. Confirm the lead: read back the parent's first name, stage and age band and ask "Is this the right family?" If more than one lead fits, list them and ask. Do not continue until the director confirms.
 3. Call `get_school_tour_availability` and show the open slots. Ask which one the director wants, or offer the earliest. If the tool says the monthly tour limit is reached, state that fact, give the plans page link it returns, and offer to draft a message to the parent instead. No sales language.
 4. Before booking, state exactly what will happen: the lead (parent first name), the date and time, and that **booking emails the parent a confirmation**. Ask for an explicit yes. A time the director merely mentioned is not a yes. Wait.
 5. On an explicit yes, call `book_school_tour` once with the confirmed lead id and slot exactly as returned. Report the result in plain words. If it fails, say why and offer to pick another slot; do not retry on your own.
-6. If a calendar app is connected, offer to add the tour to the director's calendar. This is an offer. Put in the event only the date, time, school location and the parent's first name; leave out the parent's email and any child detail.
+6. If a calendar app is connected, offer to add the tour to the director's calendar. This is an offer. Title it "Family tour" and put in only the date, time and school location. Leave out the parent's name and email and any child detail.
 
 ## Output format
 

@@ -21,7 +21,7 @@ The director wants to host an open house or enrollment event and wants a timelin
 4. For the flyer brief, give headline, date, time, place, three short selling points, a call to action and the contact line. Describe the look in words. If a design app is connected, offer to hand the brief over; otherwise give it as text.
 5. For the draft event, give title, date, time, location and a short description. If a calendar app is connected, offer to create it on the director's own calendar. Do not create it unless the director says yes.
 6. For the invite copy, write one short message for an email app. If an email app is connected, offer to create a draft. Never send it. Address it generically ("Hello families") unless the director supplies a recipient; do not pull names or emails from leads into it.
-7. Never publish anything to the school's family calendar feed from this skill.
+7. Do not publish anything to families from this skill. The director decides what goes out and when.
 
 ## Output format
 

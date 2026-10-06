@@ -16,8 +16,8 @@ The director wants a regular check-in on enrollment, usually at the start or end
 ## Steps
 
 1. Call `get_enrollment_lead_summary` for counts by stage and any trend the tool returns.
-2. Call `list_enrollment_leads` limited to leads that need follow-up (the needs-follow-up filter). Note how many there are and which have waited longest.
-3. Call `list_school_tours` for this week's tours. Note who is coming (parent first name and age band only) and any open gaps.
+2. Call `list_enrollment_leads` asking only for leads that need follow-up. Note how many there are and, if the tool says, which have waited longest.
+3. Call `list_school_tours` for this week's tours. Note who is coming (parent first name and age band only). Do not report open gaps unless the tool returns them.
 4. Call `get_school_website_results` for website visits and inquiries. If the school has no published website, say so in one line and skip the section.
 5. If a tool refuses for plan reasons, say which section is missing, give the plans page link the tool returns, and finish the rest.
 6. Write the review using the format below. Report only numbers the tools returned; if a number is missing, say it is not available. Do not compare to other schools or to benchmarks from memory.
@@ -26,7 +26,7 @@ The director wants a regular check-in on enrollment, usually at the start or end
 ## Output format
 
 - **Pipeline** (counts by stage, one line of what changed)
-- **Needs follow-up** (up to five leads: parent first name, stage, days waiting)
+- **Needs follow-up** (up to five leads: parent first name, stage, and how long waiting if the tool says)
 - **Tours this week** (day, time, parent first name, age band)
 - **Website** (visits and inquiries, or "not available")
 - **Three actions for this week** (numbered 1 to 3)
