@@ -1,0 +1,22 @@
+{
+  "name": "clear-day",
+  "description": "Clear Day plugins for childcare directors and for families.",
+  "owner": {
+    "name": "Clear Day",
+    "url": "https://useclearday.com"
+  },
+  "plugins": [
+    {
+      "name": "clear-day-for-directors",
+      "source": "./directors",
+      "description": "Skills for childcare directors: answer enrollment inquiries, prepare tours and look up licensing sources.",
+      "category": "productivity"
+    },
+    {
+      "name": "clear-day-for-parents",
+      "source": "./parents",
+      "description": "Skills for families: find licensed daycare near you, compare centers and plan how to pay.",
+      "category": "productivity"
+    }
+  ]
+}
