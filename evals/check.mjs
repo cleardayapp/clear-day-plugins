@@ -1,16 +1,17 @@
 #!/usr/bin/env node
-// Validates the submission test cases and pinned tool lists. Node >= 20, no dependencies.
+// Validates the test cases and pinned tool lists. Node >= 20, no dependencies.
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const dir = dirname(fileURLToPath(import.meta.url));
+const here = dirname(fileURLToPath(import.meta.url));
 const PLUGINS = ['directors', 'parents'];
 const KINDS = ['direct', 'indirect', 'negative'];
 const PLANS = ['FREE', 'RUN', 'GROW'];
-const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall']);
+const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall', 'confirmed']);
 const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'new', 'status']);
 
+const EXPLICIT_CONFIRMATION = /\b(yes|i confirm|go ahead)\b/i;
 const EMAIL = /[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}/g;
 const BIRTH_DATE = /\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\/\d{1,2}\/(\d{2}|\d{4})\b|\b(born|birthday|birth date|date of birth|dob)\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2},? \d{4}\b/i;
 const CHILD_NAME = [
@@ -20,11 +21,12 @@ const CHILD_NAME = [
   /\b[A-Z][a-z]+\s+[A-Z][a-z]+'s\s+([Aa]llerg|[Aa]ttendance|[Mm]edical|[Rr]ecord|[Bb]irth)/,
 ];
 
+const isStr = (v) => typeof v === 'string' && v.trim() !== '';
+
+export function check(dir = here) {
 const errors = [];
 const err = (m) => errors.push(m);
 const read = (rel) => JSON.parse(readFileSync(join(dir, rel), 'utf8'));
-const isStr = (v) => typeof v === 'string' && v.trim() !== '';
-
 const lists = {};
 for (const p of PLUGINS) {
   const l = read(`tool-lists/${p}.json`);
@@ -84,6 +86,10 @@ for (const p of PLUGINS) {
     const positive = c.kind === 'direct' || c.kind === 'indirect';
     positive ? pos++ : c.kind === 'negative' && neg++;
     if (positive && !hasTool) err(`${at}: ${c.kind} cases must expect a tool`);
+    if (tool?.destructive) {
+      if (c.confirmed !== true) err(`${at}: ${e.tool} is destructive, so the case needs "confirmed": true`);
+      if (!EXPLICIT_CONFIRMATION.test(c.prompt || '')) err(`${at}: prompt must contain an explicit confirmation (for example "Yes, I confirm")`);
+    } else if (c.confirmed !== undefined) err(`${at}: confirmed is only for cases expecting a destructive tool`);
     if (tool?.status === 'planned') planned++;
     if (tool?.status === 'planned' && c.submission && p === 'directors') err(`${at}: directors submission cases must use live tools (${e.tool} is planned)`);
     if (tool) {
@@ -125,10 +131,16 @@ for (const p of PLUGINS) {
   summary.push(`${p}: ${cases.length} cases (${pos} positive, ${neg} negative); submission ${subPos}+${subNeg}; ${covered.size}/${tools.size} tools covered; ${planned} case(s) depend on planned tools`);
 }
 
-if (errors.length) {
-  console.error(errors.map((m) => `FAIL ${m}`).join('\n'));
-  console.error(`\n${errors.length} problem(s)`);
-  process.exit(1);
+return { errors, summary };
 }
-console.log(summary.join('\n'));
-console.log('evals OK');
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  const { errors, summary } = check();
+  if (errors.length) {
+    console.error(errors.map((m) => `FAIL ${m}`).join('\n'));
+    console.error(`\n${errors.length} problem(s)`);
+    process.exit(1);
+  }
+  console.log(summary.join('\n'));
+  console.log('evals OK');
+}

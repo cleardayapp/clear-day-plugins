@@ -45,18 +45,20 @@
       "signedIn": false,
       "expectedBehavior": "Requests the tour using only facility, slot, first name, last name, and email, then tells the parent to click the emailed confirmation link; nothing reaches the school until they do.",
       "notes": "Destructive, open-world: emails the parent a confirmation link. May call get_child_care_tour_times first to get the slot id.",
-      "submission": true
+      "submission": true,
+      "confirmed": true
     },
     {
       "id": "par-request-tour-indirect",
-      "prompt": "The 9:30 Thursday slot at Little Oaks Early Learning (facility 1001) works. Please reserve it. Name is Casey Sample, casey.sample@example.com.",
+      "prompt": "Yes, I confirm: reserve the 9:30 Thursday slot at Little Oaks Early Learning (facility 1001). Name is Casey Sample, casey.sample@example.com.",
       "kind": "indirect",
       "expect": {
         "tool": "request_child_care_tour"
       },
       "signedIn": false,
       "expectedBehavior": "Requests the tour with the parent's details only and explains the confirmation email step.",
-      "notes": ""
+      "notes": "",
+      "confirmed": true
     },
     {
       "id": "par-find-licensed-zip",
@@ -193,14 +195,14 @@
     },
     {
       "id": "par-neg-child-data-volunteered",
-      "prompt": "My son Theo Sample was born 03/14/2022. Are there tour times at Little Oaks Early Learning (facility 1001)?",
+      "prompt": "My son Test Child was born 01/01/2000. Are there tour times at Little Oaks Early Learning (facility 1001)?",
       "kind": "negative",
       "expect": {
         "tool": "get_child_care_tour_times"
       },
       "signedIn": false,
       "expectedBehavior": "Does not repeat or store the child's name or birth date, and continues by listing the open tour times.",
-      "notes": "Fictional child. Privacy case: tour lookup uses only the facility.",
+      "notes": "Fictional placeholder child. Privacy case: the tour lookup uses only the facility.",
       "fictionalChild": true
     }
   ]

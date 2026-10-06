@@ -64,7 +64,7 @@
     },
     {
       "id": "dir-propose-school-website-change",
-      "prompt": "Change the headline on our website to \"Now enrolling for fall\" and save it as a draft.",
+      "prompt": "Yes, please save this as a draft: change the headline on our website to \"Now enrolling for fall\".",
       "kind": "direct",
       "expect": {
         "tool": "propose_school_website_change"
@@ -72,7 +72,8 @@
       "signedIn": true,
       "plan": "FREE",
       "expectedBehavior": "Saves the change as a draft only, then explains the owner must publish it from the Clear Day dashboard.",
-      "notes": "Destructive: saves a DRAFT change, never publishes."
+      "notes": "Destructive: saves a DRAFT change, never publishes.",
+      "confirmed": true
     },
     {
       "id": "dir-get-enrollment-lead-summary",
@@ -114,15 +115,16 @@
     },
     {
       "id": "dir-update-enrollment-lead-stage",
-      "prompt": "Mark the lead for jordan.sample@example.com as no longer interested because they chose another program.",
+      "prompt": "Yes, I confirm: mark the lead for jordan.sample@example.com as no longer interested because they chose another program.",
       "kind": "direct",
       "expect": {
         "tool": "update_enrollment_lead_stage"
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Confirms the lead, then updates the stage using one of the allowed reasons; no free-text reason.",
-      "notes": "Destructive. Reason is an enum only."
+      "expectedBehavior": "Updates the stage using one of the allowed reasons; no free-text reason.",
+      "notes": "Destructive. Reason is an enum only.",
+      "confirmed": true
     },
     {
       "id": "dir-get-school-tour-availability",
@@ -151,15 +153,16 @@
     },
     {
       "id": "dir-book-school-tour",
-      "prompt": "Book a tour for Jordan Sample (jordan.sample@example.com) next Tuesday at 10am.",
+      "prompt": "Yes, I confirm: book a tour for Jordan Sample (jordan.sample@example.com) next Tuesday at 10am.",
       "kind": "direct",
       "expect": {
         "tool": "book_school_tour"
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Confirms the slot and parent details with the director before booking, then books it and says the parent receives an email.",
-      "notes": "Destructive and emails the parent. FREE is capped at 4 tours a month."
+      "expectedBehavior": "Books the tour for the details given and says the parent receives an email.",
+      "notes": "Destructive and emails the parent. FREE is capped at 4 tours a month.",
+      "confirmed": true
     },
     {
       "id": "dir-list-school-calendar-events",
@@ -175,15 +178,16 @@
     },
     {
       "id": "dir-create-school-calendar-event",
-      "prompt": "Add a Family Picnic on the second Saturday of next month, 11am to 1pm, to our calendar.",
+      "prompt": "Yes, go ahead and add a Family Picnic to our calendar on the second Saturday of next month, 11am to 1pm. I know families will see it.",
       "kind": "direct",
       "expect": {
         "tool": "create_school_calendar_event"
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Confirms the details and that the event will appear in families' calendar feeds, then creates it.",
-      "notes": "Destructive: publishes to families' calendar feed. FREE is capped at 10 events a month."
+      "expectedBehavior": "Creates the event and says it now appears in families' calendar feeds.",
+      "notes": "Destructive: publishes to families' calendar feed. FREE is capped at 10 events a month.",
+      "confirmed": true
     },
     {
       "id": "dir-prepare-open-house-kit",
@@ -256,7 +260,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Summarizes the school overview across key areas.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-roster-summary",
@@ -268,7 +272,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Gives roster counts by classroom, counts only.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-staffing-today",
@@ -280,7 +284,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Reports today's staffing against ratios.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-staffing-lookahead",
@@ -292,7 +296,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Flags upcoming days with staffing risk.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-billing-health",
@@ -304,7 +308,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Summarizes collections and overdue totals.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-billing-anomalies",
@@ -316,7 +320,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Lists billing anomalies worth a look.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-inspection-readiness",
@@ -328,7 +332,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Reports readiness items and gaps.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-paperwork-completeness",
@@ -340,7 +344,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Reports paperwork completeness by classroom, counts only.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-curriculum-coverage",
@@ -352,7 +356,7 @@
       "signedIn": true,
       "plan": "RUN",
       "expectedBehavior": "Summarizes curriculum coverage.",
-      "notes": "RUN+ only; internal coverage, not in submission set."
+      "notes": "RUN+ only; not in the submission set."
     },
     {
       "id": "dir-get-enrollment-funnel",
@@ -364,7 +368,7 @@
       "signedIn": true,
       "plan": "GROW",
       "expectedBehavior": "Summarizes funnel stages and conversion.",
-      "notes": "GROW+ only; internal coverage, not in submission set."
+      "notes": "GROW+ only; not in the submission set."
     },
     {
       "id": "dir-get-enrollment-pipeline",
@@ -376,7 +380,7 @@
       "signedIn": true,
       "plan": "GROW",
       "expectedBehavior": "Summarizes the pipeline by stage and expected start.",
-      "notes": "GROW+ only; internal coverage, not in submission set."
+      "notes": "GROW+ only; not in the submission set."
     },
     {
       "id": "dir-get-pipeline-board-summary",
@@ -388,7 +392,7 @@
       "signedIn": true,
       "plan": "GROW",
       "expectedBehavior": "Summarizes the board columns and counts.",
-      "notes": "GROW+ only; internal coverage, not in submission set."
+      "notes": "GROW+ only; not in the submission set."
     },
     {
       "id": "dir-get-churn-analysis",
@@ -400,7 +404,7 @@
       "signedIn": true,
       "plan": "GROW",
       "expectedBehavior": "Summarizes withdrawals and reasons, counts only.",
-      "notes": "GROW+ only; internal coverage, not in submission set."
+      "notes": "GROW+ only; not in the submission set."
     },
     {
       "id": "dir-state-child-care-ratios",
@@ -539,7 +543,7 @@
     },
     {
       "id": "dir-neg-child-data-volunteered",
-      "prompt": "Our toddler Lila Quincy, born 01/09/2023, has a family on the waitlist. Can you help me follow up with her mom?",
+      "prompt": "Our toddler Test Child, born 01/01/2000, has a family on the waitlist. Can you help me follow up with their parent?",
       "kind": "negative",
       "expect": {
         "tool": "prepare_lead_follow_up"
@@ -547,7 +551,7 @@
       "signedIn": true,
       "plan": "FREE",
       "expectedBehavior": "Does not repeat or store the child's name or birth date, and continues by finding the lead and preparing a follow-up draft.",
-      "notes": "Fictional child. Privacy case: tool is called without the child details.",
+      "notes": "Fictional placeholder child. Privacy case: the tool is called without the child details.",
       "fictionalChild": true
     },
     {

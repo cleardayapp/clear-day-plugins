@@ -1,24 +1,24 @@
-# Submission test cases
+# Test cases
 
-Test cases for the OpenAI app and Anthropic connector submissions, one file per plugin. OpenAI asks for at least 5 positive and 3 negative cases per app (prompt, expected tool, expected behavior). Anthropic's review exercises every tool, so each file also holds at least one positive case per tool.
+Test cases for each plugin: prompts, the tool the assistant is expected to call (or none), and the expected behavior. Each file holds at least 5 positive and 3 negative cases, plus at least one positive case per tool so every tool is exercised.
 
 | File | Purpose |
 | --- | --- |
-| `directors.json`, `parents.json` | Cases. `submission: true` marks the 5 positive + 3 negative cases submitted. |
+| `directors.json`, `parents.json` | Cases. `submission: true` marks the 5 positive + 3 negative cases exported as the submission set. |
 | `tool-lists/*.json` | Pinned tool names with `plans` and `signedIn`. Update when the connector's tools change. |
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
 | `export-submission.mjs` | Prints the submission cases as a Markdown table. |
 
-Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not built yet but are expected to ship before submission, so they have cases too. `check.mjs` prints how many cases depend on them. Directors submission cases must use live tools; the parents set reflects the finished product. When a planned tool ships, flip its `status` to `live`.
+Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them, and directors submission cases must use live tools. Flip a tool's `status` to `live` when it ships.
 
-The export columns are `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. OpenAI's submission guidelines were not reachable when this was written, so re-check the columns against the live submission form before submitting.
+The export columns are `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. If a submission form asks for different fields, adjust `export-submission.mjs`.
 
-Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
+Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Cases that expect a destructive tool set `confirmed: true` and the prompt contains an explicit confirmation (for example "Yes, I confirm"). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
 
 ## Run the check
 
 ```
-node evals/check.mjs
+node evals/check.mjs   # also runs as part of `npm run check`
 node evals/export-submission.mjs --plugin directors
 node evals/export-submission.mjs --plugin parents
 ```
