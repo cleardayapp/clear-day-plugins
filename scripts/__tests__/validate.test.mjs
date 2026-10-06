@@ -184,3 +184,45 @@ test("license-missing: missing LICENSE fails", () => {
 test("plugin-missing: a missing plugin directory fails", () => {
   expectFail("plugin-missing", (r) => fs.rmSync(path.join(r, "parents"), { recursive: true }));
 });
+
+const MJ = (root) => path.join(root, ".claude-plugin", "marketplace.json");
+
+test("marketplace: the real file passes and has the two plugin entries", () => {
+  assert.deepEqual(validate(DEFAULT_ROOT), []);
+  const m = JSON.parse(fs.readFileSync(MJ(DEFAULT_ROOT), "utf8"));
+  assert.equal(m.name, "clear-day");
+  assert.deepEqual(m.plugins.map((p) => [p.name, p.source]), [
+    ["clear-day-for-directors", "./directors"],
+    ["clear-day-for-parents", "./parents"],
+  ]);
+});
+test("marketplace-json: missing or invalid file fails", () => {
+  expectFail("marketplace-json", (r) => fs.rmSync(MJ(r)));
+  expectFail("marketplace-json", (r) => fs.writeFileSync(MJ(r), "{"));
+});
+test("marketplace-name: reserved and malformed names fail", () => {
+  for (const name of ["claude-plugins-official", "inline", "github", "claudeai-x", "has space", ""]) {
+    expectFail("marketplace-name", (r) => editJson(MJ(r), (j) => (j.name = name)));
+  }
+});
+test("marketplace-plugins: a missing, duplicate or extra entry fails", () => {
+  expectFail("marketplace-plugins", (r) => editJson(MJ(r), (j) => j.plugins.pop()));
+  expectFail("marketplace-plugins", (r) => editJson(MJ(r), (j) => j.plugins.push({ ...j.plugins[0] })));
+  expectFail("marketplace-plugins", (r) => editJson(MJ(r), (j) => j.plugins.push({ name: "other", source: "./other" })));
+});
+test("marketplace-plugins: an entry name that differs from the plugin.json name fails", () => {
+  expectFail("marketplace-plugins", (r) => editJson(MJ(r), (j) => (j.plugins[0].name = "clear-day-directors")));
+});
+test("marketplace-source: a wrong or missing source fails", () => {
+  expectFail("marketplace-source", (r) => editJson(MJ(r), (j) => (j.plugins[0].source = "./plugins/directors")));
+  expectFail("marketplace-source", (r) => editJson(MJ(r), (j) => (j.plugins[1].source = "./nope")));
+});
+test("marketplace-owner: missing owner name fails", () => {
+  expectFail("marketplace-owner", (r) => editJson(MJ(r), (j) => delete j.owner));
+});
+test("manifest metadata: repository, license and matching versions are required", () => {
+  expectFail("manifest-repository", (r) => editJson(D(r, ".claude-plugin", "plugin.json"), (j) => (j.repository = "https://example.com/x")));
+  expectFail("manifest-repository", (r) => editJson(D(r, "plugin.json"), (j) => delete j.repository));
+  expectFail("manifest-license", (r) => editJson(D(r, ".claude-plugin", "plugin.json"), (j) => delete j.license));
+  expectFail("manifest-version", (r) => editJson(D(r, "plugin.json"), (j) => (j.version = "9.9.9")));
+});

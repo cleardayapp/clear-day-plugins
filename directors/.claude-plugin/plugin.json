@@ -8,6 +8,8 @@
     "url": "https://useclearday.com"
   },
   "homepage": "https://useclearday.com",
+  "repository": "https://github.com/cleardayapp/clear-day-plugins",
+  "license": "SEE LICENSE IN LICENSE",
   "keywords": [
     "childcare",
     "enrollment",

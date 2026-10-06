@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { DEFAULT_ROOT, readGuardrails } from "../lib.mjs";
 
-const COPY = ["shared", "templates", "directors", "parents"];
+const COPY = [".claude-plugin", "shared", "templates", "directors", "parents"];
 
 export function sampleSkill(root, { name = "sample-skill", body = "" } = {}) {
   return `---

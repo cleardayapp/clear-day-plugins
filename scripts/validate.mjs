@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Structural validator for the directors and parents plugins. Plain Node, no dependencies.
-// Usage: node plugins/scripts/validate.mjs [pluginsRoot]
+// Usage: node scripts/validate.mjs [repoRoot]
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,6 +32,18 @@ export const LIMITS = {
   readmeWords: 40,
 };
 
+export const REPOSITORY_URL = "https://github.com/cleardayapp/clear-day-plugins";
+export const MARKETPLACE_NAME = "clear-day";
+const MARKETPLACE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+// Names Claude Code reserves for marketplaces (https://code.claude.com/docs/en/plugins/marketplace-reference#reserved-names).
+const RESERVED_MARKETPLACE_NAMES = new Set([
+  "inline", "builtin", "skills-dir", "synced", "claude-plugin-test", "npm", "pip", "uv", "cargo", "github", "gh",
+  "claude-code-marketplace", "claude-code-plugins", "claude-plugins-official", "anthropic-marketplace",
+  "anthropic-plugins", "agent-skills", "anthropic-agent-skills", "life-sciences", "knowledge-work-plugins",
+  "claude-for-legal", "claude-for-financial-services", "financial-services-plugins", "first-party-plugins",
+  "claude-tag-plugins", "claude-community", "claude-plugins-community", "healthcare",
+  "anthropic-plugin-directory", "claude-plugin-directory",
+]);
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const TOOLS_USED = /^Tools used: (none|[a-z][a-z0-9_]*(, [a-z][a-z0-9_]*)*)$/;
 
@@ -40,6 +52,40 @@ function pngSize(file) {
   const sig = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   if (buf.length < 24 || !buf.subarray(0, 8).equals(sig)) return null;
   return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+}
+
+function validateMarketplace(root, err) {
+  const file = path.join(root, ".claude-plugin", "marketplace.json");
+  const mj = fs.existsSync(file) ? readJson(file) : { error: "missing" };
+  if (mj.error) return err("marketplace-json", file, mj.error);
+  const m = mj.value;
+  if (typeof m.name !== "string" || !MARKETPLACE_NAME_RE.test(m.name) || m.name.includes("..")) {
+    err("marketplace-name", file, `name ${JSON.stringify(m.name)} may use only letters, digits, ".", "_" and "-"`);
+  } else if (RESERVED_MARKETPLACE_NAMES.has(m.name.toLowerCase()) || /^claudeai-/i.test(m.name)) {
+    err("marketplace-name", file, `name ${m.name} is reserved`);
+  } else if (m.name !== MARKETPLACE_NAME) {
+    err("marketplace-name", file, `name must be ${MARKETPLACE_NAME}, got ${m.name}`);
+  }
+  if (typeof m.owner?.name !== "string" || !m.owner.name) err("marketplace-owner", file, "owner.name missing");
+  if (typeof m.description !== "string" || !m.description) err("marketplace-description", file, "description missing");
+  if (!Array.isArray(m.plugins)) return err("marketplace-plugins", file, "plugins must be an array");
+  const seen = new Set();
+  for (const [slug, spec] of Object.entries(PLUGINS)) {
+    const entries = m.plugins.filter((p) => p?.name === spec.name);
+    if (entries.length !== 1) {
+      err("marketplace-plugins", file, `expected exactly one entry named ${spec.name}, found ${entries.length}`);
+      continue;
+    }
+    const [entry] = entries;
+    if (entry.source !== `./${slug}`) err("marketplace-source", file, `${spec.name}: source must be "./${slug}", got ${JSON.stringify(entry.source)}`);
+    if (typeof entry.description !== "string" || !entry.description) err("marketplace-description", file, `${spec.name}: entry description missing`);
+    const manifest = path.join(root, slug, ".claude-plugin", "plugin.json");
+    if (!fs.existsSync(manifest)) err("marketplace-source", file, `${spec.name}: ${slug}/.claude-plugin/plugin.json not found`);
+    seen.add(entry);
+  }
+  for (const p of m.plugins) {
+    if (!seen.has(p)) err("marketplace-plugins", file, `unexpected entry ${JSON.stringify(p?.name)}`);
+  }
 }
 
 export function validate(root = DEFAULT_ROOT) {
@@ -52,6 +98,8 @@ export function validate(root = DEFAULT_ROOT) {
   const allFiles = walk(root);
   const repoBytes = allFiles.reduce((n, f) => n + fs.statSync(f).size, 0);
   if (repoBytes > LIMITS.repoBytes) err("repo-size", root, `${repoBytes} bytes exceeds ${LIMITS.repoBytes}`);
+
+  validateMarketplace(root, err);
 
   for (const [slug, spec] of Object.entries(PLUGINS)) {
     const dir = path.join(root, slug);
@@ -88,9 +136,18 @@ export function validate(root = DEFAULT_ROOT) {
       if (words < LIMITS.readmeWords) err("readme-words", readme, `${words} words, need at least ${LIMITS.readmeWords}`);
     }
 
+    // Fields both manifests must carry.
+    const checkMetadata = (file, m) => {
+      if (typeof m.version !== "string" || !m.version) err("manifest-version", file, "version missing");
+      if (typeof m.description !== "string" || !m.description) err("manifest-description", file, "description missing");
+      if (m.repository !== REPOSITORY_URL) err("manifest-repository", file, `repository must be ${REPOSITORY_URL}`);
+      if (typeof m.license !== "string" || !m.license) err("manifest-license", file, "license missing");
+    };
+
     // Claude manifest.
     const claudeManifest = path.join(dir, ".claude-plugin", "plugin.json");
     const cm = fs.existsSync(claudeManifest) ? readJson(claudeManifest) : { error: "missing" };
+    const claudeVersion = cm.value?.version;
     if (cm.error) {
       err("manifest-json", claudeManifest, cm.error);
     } else {
@@ -101,6 +158,7 @@ export function validate(root = DEFAULT_ROOT) {
         err("manifest-name", claudeManifest, `name must be ${spec.name}, got ${m.name}`);
       }
       if ("userConfig" in m || "user_config" in m) err("user-config", claudeManifest, "userConfig is not allowed");
+      checkMetadata(claudeManifest, m);
       if (m.mcpServers !== undefined) err("mcp-inline", claudeManifest, "declare servers only in .mcp.json");
       for (const key of ["commands", "agents"]) {
         if (key in m) err("forbidden-dir", claudeManifest, `${key} is not allowed`);
@@ -139,6 +197,8 @@ export function validate(root = DEFAULT_ROOT) {
       const m = om.value;
       if (m.name !== spec.name) err("manifest-name", oaManifest, `name must be ${spec.name}, got ${m.name}`);
       if ("userConfig" in m || "user_config" in m) err("user-config", oaManifest, "userConfig is not allowed");
+      checkMetadata(oaManifest, m);
+      if (m.version !== claudeVersion) err("manifest-version", oaManifest, `version ${m.version} must match the Claude manifest (${claudeVersion})`);
       const ui = m.extensions?.["com.openai"]?.interface;
       if (!ui) {
         err("openai-interface", oaManifest, 'missing extensions."com.openai".interface');
