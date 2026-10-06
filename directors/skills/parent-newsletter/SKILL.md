@@ -57,7 +57,7 @@ If an email app is connected, offer to hand the draft to it for the director to 
 
 If `list_school_calendar_events` is available, offer to pull the upcoming dates from the school calendar for the "What is coming" section, and show the dates for the director to confirm. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and ask the director for the dates instead.
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

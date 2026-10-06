@@ -62,7 +62,7 @@ Give no medical or pediatric advice. If the parent raises a health concern about
 
 Tools used: none
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

@@ -60,7 +60,7 @@ If a design app is connected, offer to pass the blocks to it for the director to
 
 If `get_school_profile` is available, offer to prefill the school name and hours from the school's profile, and show them for the director to confirm. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and ask the director for the name and hours.
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 

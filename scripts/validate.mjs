@@ -35,7 +35,7 @@ export const LIMITS = {
 export const REPOSITORY_URL = "https://github.com/cleardayapp/clear-day-plugins";
 export const MARKETPLACE_NAME = "clear-day";
 const MARKETPLACE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
-// Names Claude Code reserves for marketplaces (https://code.claude.com/docs/en/plugins/marketplace-reference#reserved-names).
+// Names Claude Code reserves for marketplaces, copied from https://code.claude.com/docs/en/plugins/marketplace-reference#reserved-names. Re-check when that page changes.
 const RESERVED_MARKETPLACE_NAMES = new Set([
   "inline", "builtin", "skills-dir", "synced", "claude-plugin-test", "npm", "pip", "uv", "cargo", "github", "gh",
   "claude-code-marketplace", "claude-code-plugins", "claude-plugins-official", "anthropic-marketplace",

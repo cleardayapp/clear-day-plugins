@@ -65,7 +65,7 @@ If an email app is connected, offer to hand over a draft message for sending the
 
 If `get_state_child_care_resources` is available, call it for the director's state and link the licensing agency next to the verify list, citing the link the tool returns. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and tell the director to check the state agency's website.
 
-<!-- Copy the block below unchanged from plugins/shared/guardrails.md. The validator checks it verbatim. -->
+<!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
 ## Guardrails
 
