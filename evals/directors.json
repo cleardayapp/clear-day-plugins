@@ -483,12 +483,15 @@
       "prompt": "Show me our billing anomalies.",
       "kind": "negative",
       "expect": {
-        "none": true
+        "tool": "get_plan_and_usage"
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Explains billing insights need the Run plan or higher and does not attempt the call on a FREE school.",
-      "notes": "RUN-only tool on a FREE school."
+      "expectedBehavior": "Checks the plan, then explains billing insights need the Run plan or higher; does not call the billing tool on a FREE school.",
+      "notes": "RUN-only tool on a FREE school.",
+      "mustNotCall": [
+        "get_billing_anomalies"
+      ]
     }
   ]
 }

@@ -9,7 +9,7 @@ Test cases for the OpenAI app and Anthropic connector submissions, one file per 
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
 | `export-submission.mjs` | Prints the submission cases as a Markdown table. |
 
-Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`. Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
+Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
 
 ## Run the check
 
@@ -27,4 +27,4 @@ Node 20 or newer, no dependencies. The check exits non-zero on any problem.
 2. In Claude, add the connector, start a new chat, and paste each case's `prompt`.
 3. Repeat in ChatGPT with the app enabled.
 4. For each case, note whether the expected tool was called (or no tool for `{none: true}`), whether the behavior matched `expectedBehavior`, and the date. Keep results outside this repo.
-5. Destructive tools (`book_school_tour`, `create_school_calendar_event`, `update_enrollment_lead_stage`, `request_child_care_tour`) act for real. Use the demo school and `@example.com` addresses.
+5. Destructive tools (`propose_school_website_change`, `book_school_tour`, `create_school_calendar_event`, `update_enrollment_lead_stage`, `request_child_care_tour`, the ones flagged `destructive` in `tool-lists/*.json`) act for real. Use the demo school and `@example.com` addresses.

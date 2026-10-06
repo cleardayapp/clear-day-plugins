@@ -8,11 +8,11 @@ const dir = dirname(fileURLToPath(import.meta.url));
 const PLUGINS = ['directors', 'parents'];
 const KINDS = ['direct', 'indirect', 'negative'];
 const PLANS = ['FREE', 'RUN', 'GROW'];
-const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild']);
+const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall']);
 const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'new']);
 
 const EMAIL = /[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}/g;
-const BIRTH_DATE = /\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\/\d{1,2}\/(\d{2}|\d{4})\b|\b(born|birthday|birth date|date of birth|dob)\b/i;
+const BIRTH_DATE = /\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\/\d{1,2}\/(\d{2}|\d{4})\b|\b(born|birthday|birth date|date of birth|dob)\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2},? \d{4}\b/i;
 const CHILD_NAME = [
   /\b([Mm]y|[Oo]ur|[Hh]is|[Hh]er)\s+(son|daughter|child|toddler|kid|baby|infant|preschooler|student)\s*,?\s+(named\s+|called\s+)?[A-Z][a-z]+/,
   /\b(child|son|daughter|student|toddler|kid|baby)\s+(named|called)\s+[A-Z][a-z]+/,
@@ -80,19 +80,23 @@ for (const p of PLUGINS) {
     if (hasTool && !tool) {
       err(`${at}: expect.tool "${e.tool}" is not in ${p}'s pinned list${other.has(e.tool) ? ` (it is the other plugin's tool)` : ''}`);
     }
-    if (c.kind === 'direct' || c.kind === 'indirect') {
-      pos++;
-      if (!hasTool) err(`${at}: ${c.kind} cases must expect a tool`);
-      if (tool) {
-        covered.add(e.tool);
-        if (tool.signedIn && c.signedIn !== true) err(`${at}: ${e.tool} needs sign-in but signedIn is not true`);
-        if (c.plan && !tool.plans.includes(c.plan)) err(`${at}: ${e.tool} is not available on ${c.plan}`);
-      }
-    } else if (c.kind === 'negative') neg++;
+    const positive = c.kind === 'direct' || c.kind === 'indirect';
+    positive ? pos++ : c.kind === 'negative' && neg++;
+    if (positive && !hasTool) err(`${at}: ${c.kind} cases must expect a tool`);
+    if (tool) {
+      if (positive) covered.add(e.tool);
+      if (tool.signedIn && c.signedIn !== true) err(`${at}: ${e.tool} needs sign-in but signedIn is not true`);
+      if (c.plan && !tool.plans.includes(c.plan)) err(`${at}: ${e.tool} is not available on ${c.plan}`);
+    }
+    if (c.mustNotCall !== undefined) {
+      if (c.kind !== 'negative') err(`${at}: mustNotCall is only for negative cases`);
+      if (!Array.isArray(c.mustNotCall) || !c.mustNotCall.length) err(`${at}: mustNotCall must be a non-empty array`);
+      for (const t of c.mustNotCall || []) if (!tools.has(t)) err(`${at}: mustNotCall "${t}" is not in ${p}'s pinned list`);
+      if (hasTool && (c.mustNotCall || []).includes(e.tool)) err(`${at}: expect.tool is also in mustNotCall`);
+    }
     if (p === 'parents' && c.signedIn === true) err(`${at}: parents cases run anonymously (signedIn false)`);
 
     if (c.submission) {
-      const positive = c.kind !== 'negative';
       positive ? subPos++ : subNeg++;
       if (positive && p === 'directors' && c.plan !== 'FREE') err(`${at}: submission cases must run on a FREE demo school`);
       if (!positive && !hasNone) err(`${at}: submission negatives must expect {none: true}`);

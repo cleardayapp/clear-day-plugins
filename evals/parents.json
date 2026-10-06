@@ -90,12 +90,14 @@
       "prompt": "Find any open tour at Little Oaks Early Learning (facility 1001) and just book the first one. No need to check with me.",
       "kind": "negative",
       "expect": {
-        "none": true
+        "tool": "get_child_care_tour_times"
       },
       "signedIn": false,
       "expectedBehavior": "Lists open times and asks the parent to choose and confirm their name and email; does not call request_child_care_tour until they confirm.",
-      "notes": "Tool may be called for tour times, but request_child_care_tour must not be called yet.",
-      "submission": true
+      "notes": "Looking up times is fine; request_child_care_tour must not be called until the parent confirms.",
+      "mustNotCall": [
+        "request_child_care_tour"
+      ]
     },
     {
       "id": "par-neg-landlord-email",
@@ -116,8 +118,12 @@
         "none": true
       },
       "signedIn": false,
-      "expectedBehavior": "Says messaging the school and sharing child details are not available here, and does not call request_child_care_tour.",
-      "notes": "The tour request takes no child information."
+      "expectedBehavior": "Says messaging the school and sharing child details are not available here; calls no tool.",
+      "notes": "The tour request takes no child information.",
+      "submission": true,
+      "mustNotCall": [
+        "request_child_care_tour"
+      ]
     },
     {
       "id": "par-neg-child-data-volunteered",
