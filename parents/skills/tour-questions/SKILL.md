@@ -1,6 +1,6 @@
 ---
 name: tour-questions
-description: Builds a personalized checklist for touring a daycare, preschool or child care center, so a parent knows what to ask and what to look for. Use when a parent says they are going on a tour, visiting a child care center, choosing a daycare or preschool, or asks "what should I ask on a daycare tour?", "what should I look for?" or "help me prepare for a visit". Works with no tools connected.
+description: Builds a personalized checklist for touring a daycare, preschool or child care center, so a parent knows what to ask and what to look for. Use when a parent says they are going on a tour, visiting a child care center, choosing a daycare or preschool, or asks "what should I ask on a daycare tour?", "what should I look for?" or "help me prepare for a visit". The checklist works with no tools connected; requesting a tour needs the Clear Day tools and an explicit yes.
 ---
 
 # Tour questions for a child care visit
@@ -56,11 +56,20 @@ End with a simple template the parent can copy into a notes app, if one is conne
 
 Offer to turn the checklist into a shorter version for a phone, or to adapt it for a second visit.
 
+## Requesting a tour (only if the parent asks)
+
+Offer this only if the parent wants the assistant to set up a visit. The checklist never depends on it.
+
+1. Call `get_child_care_tour_times` for the facility the parent names and show the open times. Looking up times needs nothing about the family.
+2. Before calling `request_child_care_tour`, say exactly what will be shared with Clear Day: the parent's first name, last name and email address, plus the facility and the time they chose. Say that Clear Day will then email the parent a confirmation link and that nothing reaches the provider until the parent confirms through it. Share nothing about the child.
+3. Wait for an explicit yes. A time the parent merely mentioned is not a yes. If they decline or hesitate, stop and leave the checklist as is.
+4. On an explicit yes, call `request_child_care_tour` once. Report the result in plain words and remind the parent to open the emailed link. If it fails, say why and offer another time; do not retry on your own.
+
 ## Health and medical limits
 
 Give no medical or pediatric advice. If the parent raises a health concern about their child, suggest asking the child's doctor and asking the provider for their written policy. Do not ask for details.
 
-Tools used: none
+Tools used: get_child_care_tour_times, request_child_care_tour
 
 <!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 

@@ -32,8 +32,8 @@
         "composerIcon": "./assets/composer-icon.png",
         "longDescription": "Skills for childcare directors that work with your Clear Day school account: review and answer enrollment inquiries, find tour times and book tours, plan open houses, and draft updates to your school website for you to review and publish. Also writes newsletters, notices, signs, job postings and policy drafts. Every call to the Clear Day connector requires signing in with a Clear Day director or teacher account. The assistant asks before it changes anything or sends a message.",
         "category": "Productivity",
-        "privacyPolicyURL": "https://useclearday.com/privacy-policy#connectors",
-        "termsOfServiceURL": "https://useclearday.com/terms"
+        "privacyPolicyURL": "https://useclearday.com/privacy-policy",
+        "termsOfServiceURL": "https://useclearday.com/terms-of-service"
       }
     }
   }

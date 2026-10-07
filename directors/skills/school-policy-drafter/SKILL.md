@@ -7,7 +7,7 @@ description: Drafts parent handbook policy sections for a child care center or p
 
 Draft a clear, parent-friendly handbook section from the director's choices, then give the director a checklist of the statements that depend on state licensing so they can verify them. Works with nothing connected.
 
-Tools used: get_state_child_care_resources
+Tools used: none
 
 ## When to use it
 
@@ -51,10 +51,6 @@ Never ask about an individual child. If the director mentions a specific child, 
 ## Hand-offs
 
 If a document app is connected, offer to save the draft there. If an email app is connected, offer a draft message to families announcing the change. Offers only; the assistant never sends anything.
-
-## When the school's Clear Day tools are connected
-
-If `get_state_child_care_resources` is available, call it for the director's state and put the agency link it returns next to the verify list, citing the link. If the tool is not available, or it refuses for plan reasons, state that fact plainly, give the plans page link the tool returns if it returns one, make no sales pitch, and tell the director to look up the state child care licensing agency's website themselves.
 
 <!-- Copy the block below unchanged from shared/guardrails.md. The validator checks it verbatim. -->
 
