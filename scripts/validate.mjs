@@ -215,6 +215,15 @@ export function validate(root = DEFAULT_ROOT) {
         } else if (ui.shortDescription.length > LIMITS.shortDescriptionChars) {
           err("openai-short-description", oaManifest, `shortDescription over ${LIMITS.shortDescriptionChars} chars`);
         }
+        for (const key of ["privacyPolicyURL", "termsOfServiceURL"]) {
+          const v = ui[key];
+          let ok = false;
+          try { ok = typeof v === "string" && /^https:\/\/[^\s/]/.test(v) && !!new URL(v).hostname; } catch { /* not a URL */ }
+          if (!ok) err("openai-legal-urls", oaManifest, `${key} must be an https:// URL`);
+        }
+        for (const key of ["longDescription", "category"]) {
+          if (typeof ui[key] !== "string" || !ui[key].trim()) err("openai-listing-fields", oaManifest, `${key} missing`);
+        }
         if (typeof ui.developerName !== "string" || !ui.developerName) err("openai-developer-name", oaManifest, "developerName missing");
         const prompts = ui.defaultPrompt;
         if (!Array.isArray(prompts) || prompts.length === 0) {

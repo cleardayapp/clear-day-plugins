@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "clear-day-for-directors",
   "version": "0.1.0",
-  "description": "Skills for childcare directors: answer enrollment inquiries, prepare tours and look up licensing sources, with optional sign-in to Clear Day.",
+  "description": "Skills for childcare directors: answer enrollment inquiries, book tours and draft website updates. Clear Day tools require signing in with a Clear Day director or teacher account.",
   "author": {
     "name": "Clear Day",
     "url": "https://useclearday.com"
@@ -14,22 +14,26 @@
     "childcare",
     "enrollment",
     "directors",
-    "licensing"
+    "tours"
   ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Clear Day for Directors",
-        "shortDescription": "Enrollment, tours & licensing",
+        "shortDescription": "Enrollment, tours & website",
         "developerName": "Clear Day",
         "websiteURL": "https://useclearday.com",
         "defaultPrompt": [
           "Show me my open enrollment inquiries and which ones need a reply.",
           "Help me prepare for tomorrow's tours.",
-          "Find the official source for my state's staff-to-child ratio rules."
+          "How is my school website doing this week?"
         ],
         "logo": "./assets/logo.png",
-        "composerIcon": "./assets/composer-icon.png"
+        "composerIcon": "./assets/composer-icon.png",
+        "longDescription": "Skills for childcare directors that work with your Clear Day school account: review and answer enrollment inquiries, find tour times and book tours, plan open houses, and draft updates to your school website for you to review and publish. Also writes newsletters, notices, signs, job postings and policy drafts. Every call to the Clear Day connector requires signing in with a Clear Day director or teacher account. The assistant asks before it changes anything or sends a message.",
+        "category": "Productivity",
+        "privacyPolicyURL": "https://useclearday.com/privacy-policy",
+        "termsOfServiceURL": "https://useclearday.com/terms-of-service"
       }
     }
   }

@@ -226,3 +226,41 @@ test("manifest metadata: repository, license and matching versions are required"
   expectFail("manifest-license", (r) => editJson(D(r, ".claude-plugin", "plugin.json"), (j) => delete j.license));
   expectFail("manifest-version", (r) => editJson(D(r, "plugin.json"), (j) => (j.version = "9.9.9")));
 });
+
+test("openai-legal-urls: both https URLs pass; missing, empty, non-string, http or malformed values fail per key", () => {
+  const oa = (r, plugin) => path.join(r, plugin, "plugin.json");
+  const bad = [undefined, "", 5, "not a url", "http://useclearday.com/terms", "https:example", "https:///terms"];
+  for (const plugin of ["directors", "parents"]) {
+    for (const key of ["privacyPolicyURL", "termsOfServiceURL"]) {
+      for (const value of bad) {
+        const root = fixture((r) =>
+          editJson(oa(r, plugin), (j) => {
+            const ui = j.extensions["com.openai"].interface;
+            if (value === undefined) delete ui[key];
+            else ui[key] = value;
+          }));
+        const hits = validate(root).filter((e) => e.startsWith("openai-legal-urls") && e.includes(plugin) && e.includes(key));
+        assert.equal(hits.length, 1, `${plugin} ${key} = ${JSON.stringify(value)}: ${validate(root).join("\n")}`);
+      }
+    }
+  }
+  assert.deepEqual(validate(fixture()), []);
+});
+
+test("openai-listing-fields: longDescription and category are required", () => {
+  for (const plugin of ["directors", "parents"]) {
+    for (const key of ["longDescription", "category"]) {
+      for (const value of [undefined, "", "  "]) {
+        const root = fixture((r) =>
+          editJson(path.join(r, plugin, "plugin.json"), (j) => {
+            const ui = j.extensions["com.openai"].interface;
+            if (value === undefined) delete ui[key];
+            else ui[key] = value;
+          }));
+        const hits = validate(root).filter((e) => e.startsWith("openai-listing-fields") && e.includes(plugin) && e.includes(key));
+        assert.equal(hits.length, 1, `${plugin} ${key}: ${validate(root).join("\n")}`);
+      }
+    }
+  }
+  assert.deepEqual(validate(fixture()), []);
+});

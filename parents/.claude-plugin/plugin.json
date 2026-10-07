@@ -2,7 +2,7 @@
   "name": "clear-day-for-parents",
   "displayName": "Clear Day for Parents",
   "version": "0.1.0",
-  "description": "Skills for families: find licensed daycare near you, compare centers and plan how to pay, using public licensing records.",
+  "description": "Skills for families: find licensed daycare near you, compare centers and plan how to pay, using public licensing records. You can also request a tour; Clear Day then emails you a confirmation link.",
   "author": {
     "name": "Clear Day",
     "url": "https://useclearday.com"
