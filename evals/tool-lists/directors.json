@@ -379,7 +379,27 @@
         "GROW"
       ],
       "signedIn": false,
-      "status": "planned"
+      "status": "live"
+    },
+    {
+      "name": "get_child_care_provider",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "live"
+    },
+    {
+      "name": "compare_child_care_providers",
+      "plans": [
+        "FREE",
+        "RUN",
+        "GROW"
+      ],
+      "signedIn": false,
+      "status": "live"
     }
   ]
 }

@@ -476,7 +476,31 @@
       "signedIn": false,
       "plan": "FREE",
       "expectedBehavior": "Lists nearby licensed programs the tool returns, with licensing details.",
-      "notes": "planned. Anonymous use is allowed."
+      "notes": "Anonymous use is allowed."
+    },
+    {
+      "id": "dir-get-child-care-provider",
+      "prompt": "Search licensed child care near ZIP 78701, then tell me the license status, ages served and hours of the first result.",
+      "kind": "direct",
+      "expect": {
+        "tool": "get_child_care_provider"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Searches by ZIP code, then summarizes the provider details the tool returns, with the source link.",
+      "notes": "Calls find_licensed_child_care first. Anonymous use is allowed."
+    },
+    {
+      "id": "dir-compare-child-care-providers",
+      "prompt": "Search licensed child care near ZIP 78701 and compare the first two results side by side.",
+      "kind": "direct",
+      "expect": {
+        "tool": "compare_child_care_providers"
+      },
+      "signedIn": false,
+      "plan": "FREE",
+      "expectedBehavior": "Compares the two providers side by side using tool data only, with the source link, and does not rank them.",
+      "notes": "Calls find_licensed_child_care first. Anonymous use is allowed."
     },
     {
       "id": "dir-neg-landlord-email",
