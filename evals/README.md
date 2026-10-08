@@ -7,13 +7,13 @@ Test cases for each plugin: prompts, the tool the assistant is expected to call 
 | `directors.json`, `parents.json` | Cases. `submission: true` marks the 5 positive + 3 negative cases exported as the submission set. |
 | `tool-lists/*.json` | Pinned tool names with `plans` and `signedIn`. Update when the connector's tools change. |
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
-| `export-submission.mjs` | Prints the submission cases as a Markdown table; exits 1 if one expects a planned tool. |
+| `export-submission.mjs` | Prints the submission cases as the `review.test_cases` JSON (`--format table` for a Markdown table); exits 1 if one expects a planned tool. |
 
 Tools in `tool-lists/*.json` carry only `name`, `plans`, `signedIn`, optional `destructive`, and `status`; any other key fails the check. Each tool has `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them. Submission cases (either plugin) must use live tools: `check.mjs` and `export-submission.mjs` both fail otherwise. Flip a tool's `status` to `live` when it ships.
 
 The export prints the `extensions."com.openai".review.test_cases` object that OpenAI documents: positive cases carry `description`, `prompt`, `tools_triggered` and `expected_behavior`; negative cases carry `description` and `prompt`. Pass `--format table` for a Markdown table with the columns `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. Submission cases need a `description`. Cases cover tools, not skills; the skill cases (`par-skill-*`) are not part of the submission set.
 
-Case fields: `id`, `prompt`, `kind`, `description` (required for submission cases) (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Cases that expect a destructive tool set `confirmed: true` and the prompt contains an explicit confirmation (for example "Yes, I confirm"). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
+Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `description` (required for submission cases), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Cases that expect a destructive tool set `confirmed: true` and the prompt contains an explicit confirmation (for example "Yes, I confirm"). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
 
 ## Run the check
 

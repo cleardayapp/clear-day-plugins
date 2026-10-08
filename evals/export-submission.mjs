@@ -42,7 +42,8 @@ export function exportSubmission(plugin, dir = here) {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const arg = (name) => {
     const i = process.argv.indexOf(name);
-    return i > 0 ? process.argv[i + 1] : undefined;
+    const v = i > 0 ? process.argv[i + 1] : undefined;
+    return v?.startsWith('--') ? undefined : v;
   };
   const plugin = arg('--plugin');
   const format = arg('--format') ?? 'json';

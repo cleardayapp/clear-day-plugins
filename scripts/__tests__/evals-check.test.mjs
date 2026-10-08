@@ -97,6 +97,13 @@ test("the export fails when a submission case uses a planned tool", () => {
   assert.match(json.stdout, /"tools_triggered": "find_licensed_child_care"/);
 });
 
+test("the export CLI rejects --dir followed by another flag", () => {
+  const script = path.join(EVALS, "export-submission.mjs");
+  const run = spawnSync(process.execPath, [script, "--plugin", "parents", "--dir", "--format", "table"], { encoding: "utf8" });
+  assert.equal(run.status, 2);
+  assert.match(run.stderr, /--dir needs a folder/);
+});
+
 test("the export CLI rejects --dir without a folder", () => {
   const script = path.join(EVALS, "export-submission.mjs");
   const run = spawnSync(process.execPath, [script, "--plugin", "parents", "--dir"], { encoding: "utf8" });

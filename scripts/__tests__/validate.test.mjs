@@ -301,6 +301,10 @@ test("rules-drift: a director skill with the shared rules block passes; an edite
   });
   expectFail("rules-drift", (r) => {
     withRules(r);
+    edit(skill(r), (t) => t.replace("Do not retry in a loop.", "Do not retry in a loop.\n- **Extra.** An added bullet."));
+  });
+  expectFail("rules-drift", (r) => {
+    withRules(r);
     edit(path.join(r, "shared", "director-rules.md"), (t) => t + "- **Extra.** A new rule.\n");
   });
   expectFail("rules-drift", (r) => {

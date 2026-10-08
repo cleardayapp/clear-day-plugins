@@ -300,8 +300,14 @@ export function validate(root = DEFAULT_ROOT) {
       const lines = text.replace(/\n$/, "").split("\n").length;
       if (lines >= LIMITS.skillLines) err("skill-lines", file, `${lines} lines, must be under ${LIMITS.skillLines}`);
       if (guardrails && !text.includes(guardrails)) err("guardrail-missing", file, "shared/guardrails.md block not found verbatim");
-      if (text.includes(RULES_HEADING) && (!rules || !text.includes(rules)))
-        err("rules-drift", file, "the \"Rules that apply every time\" block must match shared/director-rules.md verbatim");
+      const rulesAt = text.split("\n").indexOf(RULES_HEADING);
+      if (rulesAt !== -1) {
+        const lines = text.split("\n").slice(rulesAt);
+        const end = lines.findIndex((l, i) => i > 0 && l.trim() !== "" && !l.startsWith("- "));
+        const copy = (end === -1 ? lines : lines.slice(0, end)).join("\n").trim();
+        if (copy !== rules)
+          err("rules-drift", file, "the \"Rules that apply every time\" block must match shared/director-rules.md verbatim");
+      }
       const toolLines = text.split("\n").filter((l) => l.startsWith("Tools used:"));
       if (toolLines.length !== 1 || !TOOLS_USED.test(toolLines[0]))
         err("tools-used", file, 'needs exactly one line "Tools used: a, b, c" (snake_case names, or "Tools used: none")');
