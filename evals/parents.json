@@ -50,7 +50,7 @@
     },
     {
       "id": "par-tour-times-direct",
-      "prompt": "Search licensed child care in ZIP 23219, find the provider marked (Demo), and show me its open tour times this week.",
+      "prompt": "Search licensed child care in ZIP 23219, find the provider marked (Demo), and show me its next open tour times.",
       "kind": "direct",
       "description": "Shows open tour times for a provider with a published site.",
       "expect": {
@@ -86,7 +86,7 @@
     },
     {
       "id": "par-tour-times-indirect",
-      "prompt": "I am choosing a child care center near ZIP 23219 and want to visit the one marked (Demo) before I decide. Is there a time this week?",
+      "prompt": "I am choosing a child care center near ZIP 23219 and want to visit the one marked (Demo) before I decide. What are the next open times?",
       "kind": "indirect",
       "expect": {
         "tool": "get_child_care_tour_times"
