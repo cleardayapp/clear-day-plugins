@@ -2,7 +2,7 @@
   "name": "clear-day-for-parents",
   "displayName": "Clear Day for Parents",
   "version": "0.1.0",
-  "description": "Skills for families: find licensed daycare near you, compare centers and plan how to pay, using public licensing records. You can also request a tour; Clear Day then emails you a confirmation link.",
+  "description": "Skills for families: find, view and compare licensed child care providers using public licensing records, see open tour times at schools that publish them on Clear Day, and request a tour. Clear Day then emails you a confirmation link.",
   "author": {
     "name": "Clear Day",
     "url": "https://useclearday.com"
@@ -10,6 +10,7 @@
   "homepage": "https://useclearday.com",
   "repository": "https://github.com/cleardayapp/clear-day-plugins",
   "license": "SEE LICENSE IN LICENSE",
+  "icon": "./assets/logo.png",
   "keywords": [
     "childcare",
     "daycare",
