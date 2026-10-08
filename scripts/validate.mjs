@@ -30,6 +30,8 @@ export const LIMITS = {
   pluginFiles: 512,
   repoBytes: 50 * 1024 * 1024,
   readmeWords: 40,
+  capabilities: 20,
+  capabilityChars: 120,
 };
 
 export const REPOSITORY_URL = "https://github.com/cleardayapp/clear-day-plugins";
@@ -44,6 +46,13 @@ const RESERVED_MARKETPLACE_NAMES = new Set([
   "claude-tag-plugins", "claude-community", "claude-plugins-community", "healthcare",
   "anthropic-plugin-directory", "claude-plugin-directory",
 ]);
+// Categories OpenAI accepts for interface.category, from https://developers.openai.com/plugins/deploy/submission-errors (error plugin_category_unknown). Re-check when that page changes.
+export const OPENAI_CATEGORIES = [
+  "Productivity", "Creativity", "Developer Tools", "Business & Operations", "Data & Analytics", "Communication",
+  "Education & Research", "Security", "Finance", "Healthcare", "Travel", "Entertainment", "Other",
+];
+export const PRIVACY_POLICY_URL = "https://useclearday.com/privacy-policy";
+const RULES_HEADING = "## Rules that apply every time";
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const TOOLS_USED = /^Tools used: (none|[a-z][a-z0-9_]*(, [a-z][a-z0-9_]*)*)$/;
 
@@ -94,6 +103,9 @@ export function validate(root = DEFAULT_ROOT) {
 
   const guardrails = readGuardrails(root);
   if (!guardrails) err("guardrails-source", path.join(root, "shared", "guardrails.md"), "missing or empty");
+
+  const rulesFile = path.join(root, "shared", "director-rules.md");
+  const rules = fs.existsSync(rulesFile) ? readText(rulesFile).trim() : null;
 
   const allFiles = walk(root);
   const repoBytes = allFiles.reduce((n, f) => n + fs.statSync(f).size, 0);
@@ -215,14 +227,26 @@ export function validate(root = DEFAULT_ROOT) {
         } else if (ui.shortDescription.length > LIMITS.shortDescriptionChars) {
           err("openai-short-description", oaManifest, `shortDescription over ${LIMITS.shortDescriptionChars} chars`);
         }
-        for (const key of ["privacyPolicyURL", "termsOfServiceURL"]) {
+        for (const key of ["privacyPolicyURL", "termsOfServiceURL", "supportURL"]) {
           const v = ui[key];
           let ok = false;
           try { ok = typeof v === "string" && /^https:\/\/[^\s/]/.test(v) && !!new URL(v).hostname; } catch { /* not a URL */ }
           if (!ok) err("openai-legal-urls", oaManifest, `${key} must be an https:// URL`);
         }
+        const privacyUrl = `${PRIVACY_POLICY_URL}#connector-${slug}`;
+        if (ui.privacyPolicyURL !== privacyUrl) err("openai-privacy-anchor", oaManifest, `privacyPolicyURL must be ${privacyUrl}`);
         for (const key of ["longDescription", "category"]) {
           if (typeof ui[key] !== "string" || !ui[key].trim()) err("openai-listing-fields", oaManifest, `${key} missing`);
+        }
+        if (typeof ui.category === "string" && ui.category.trim() && !OPENAI_CATEGORIES.includes(ui.category))
+          err("openai-category", oaManifest, `category ${JSON.stringify(ui.category)} must be one of ${OPENAI_CATEGORIES.join(", ")}`);
+        if (ui.capabilities !== undefined) {
+          const caps = ui.capabilities;
+          const okCaps =
+            Array.isArray(caps) && caps.length <= LIMITS.capabilities &&
+            caps.every((c) => typeof c === "string" && c.trim() && !c.includes("\n") && c.length <= LIMITS.capabilityChars);
+          if (!okCaps)
+            err("openai-capabilities", oaManifest, `capabilities must be at most ${LIMITS.capabilities} one-line strings of ${LIMITS.capabilityChars} chars or fewer`);
         }
         if (typeof ui.developerName !== "string" || !ui.developerName) err("openai-developer-name", oaManifest, "developerName missing");
         const prompts = ui.defaultPrompt;
@@ -276,6 +300,8 @@ export function validate(root = DEFAULT_ROOT) {
       const lines = text.replace(/\n$/, "").split("\n").length;
       if (lines >= LIMITS.skillLines) err("skill-lines", file, `${lines} lines, must be under ${LIMITS.skillLines}`);
       if (guardrails && !text.includes(guardrails)) err("guardrail-missing", file, "shared/guardrails.md block not found verbatim");
+      if (text.includes(RULES_HEADING) && (!rules || !text.includes(rules)))
+        err("rules-drift", file, "the \"Rules that apply every time\" block must match shared/director-rules.md verbatim");
       const toolLines = text.split("\n").filter((l) => l.startsWith("Tools used:"));
       if (toolLines.length !== 1 || !TOOLS_USED.test(toolLines[0]))
         err("tools-used", file, 'needs exactly one line "Tools used: a, b, c" (snake_case names, or "Tools used: none")');

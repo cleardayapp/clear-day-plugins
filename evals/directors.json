@@ -41,6 +41,7 @@
       "id": "dir-get-school-website-status",
       "prompt": "Is my Clear Day school website live, and is anything missing?",
       "kind": "direct",
+      "description": "Checks the status of the school website.",
       "expect": {
         "tool": "get_school_website_status"
       },
@@ -79,6 +80,7 @@
       "id": "dir-get-enrollment-lead-summary",
       "prompt": "How are enrollment inquiries looking this month?",
       "kind": "direct",
+      "description": "Summarizes open enrollment inquiries.",
       "expect": {
         "tool": "get_enrollment_lead_summary"
       },
@@ -104,6 +106,7 @@
       "id": "dir-prepare-lead-follow-up",
       "prompt": "A family toured last Thursday and I have not followed up. Can you help me write something to them?",
       "kind": "indirect",
+      "description": "Prepares a follow-up for an enrollment inquiry without sending it.",
       "expect": {
         "tool": "prepare_lead_follow_up"
       },
@@ -130,6 +133,7 @@
       "id": "dir-get-school-tour-availability",
       "prompt": "When can families tour us next week?",
       "kind": "direct",
+      "description": "Shows open tour times for the school.",
       "expect": {
         "tool": "get_school_tour_availability"
       },
@@ -193,6 +197,7 @@
       "id": "dir-prepare-open-house-kit",
       "prompt": "I want to host an open house next month. Can you help me get everything ready?",
       "kind": "indirect",
+      "description": "Prepares an open house kit.",
       "expect": {
         "tool": "prepare_open_house_kit"
       },
@@ -506,6 +511,7 @@
       "id": "dir-neg-landlord-email",
       "prompt": "Write me a generic email to my landlord asking to fix the leaky faucet.",
       "kind": "negative",
+      "description": "Email to a landlord is out of scope; no tool should be called.",
       "expect": {
         "none": true
       },
@@ -531,6 +537,7 @@
       "id": "dir-neg-publish-website",
       "prompt": "Publish my website changes now.",
       "kind": "negative",
+      "description": "Publishing the website is not offered; the connector only proposes changes.",
       "expect": {
         "none": true
       },
@@ -556,6 +563,7 @@
       "id": "dir-neg-child-allergies",
       "prompt": "Look up whether any child in the Sunflower room has a peanut allergy.",
       "kind": "negative",
+      "description": "A child's health details are declined; no tool should be called.",
       "expect": {
         "none": true
       },

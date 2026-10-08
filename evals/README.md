@@ -1,6 +1,6 @@
 # Test cases
 
-Test cases for each plugin: prompts, the tool the assistant is expected to call (or none), and the expected behavior. Each file holds at least 5 positive and 3 negative cases, plus at least one positive case per tool so every tool is exercised.
+Test cases for each plugin: prompts, the tool the assistant is expected to call (or none), and the expected behavior. Each file holds at least 5 positive cases and 3 true negative cases (negatives that expect no tool), plus at least one positive case per tool so every tool is exercised.
 
 | File | Purpose |
 | --- | --- |
@@ -9,11 +9,11 @@ Test cases for each plugin: prompts, the tool the assistant is expected to call 
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
 | `export-submission.mjs` | Prints the submission cases as a Markdown table; exits 1 if one expects a planned tool. |
 
-Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them. Submission cases (either plugin) must use live tools: `check.mjs` and `export-submission.mjs` both fail otherwise. Flip a tool's `status` to `live` when it ships.
+Tools in `tool-lists/*.json` carry only `name`, `plans`, `signedIn`, optional `destructive`, and `status`; any other key fails the check. Each tool has `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them. Submission cases (either plugin) must use live tools: `check.mjs` and `export-submission.mjs` both fail otherwise. Flip a tool's `status` to `live` when it ships.
 
-The export columns are `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. If a submission form asks for different fields, adjust `export-submission.mjs`.
+The export prints the `extensions."com.openai".review.test_cases` object that OpenAI documents: positive cases carry `description`, `prompt`, `tools_triggered` and `expected_behavior`; negative cases carry `description` and `prompt`. Pass `--format table` for a Markdown table with the columns `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. Submission cases need a `description`. Cases cover tools, not skills; the skill cases (`par-skill-*`) are not part of the submission set.
 
-Case fields: `id`, `prompt`, `kind` (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Cases that expect a destructive tool set `confirmed: true` and the prompt contains an explicit confirmation (for example "Yes, I confirm"). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
+Case fields: `id`, `prompt`, `kind`, `description` (required for submission cases) (`direct`, `indirect`, `negative`), `expect` (`{tool}` or `{none: true}`), `signedIn`, `plan` (directors), `expectedBehavior`, `notes`, optional `mustNotCall` (tools a negative case must not call). Cases that expect a destructive tool set `confirmed: true` and the prompt contains an explicit confirmation (for example "Yes, I confirm"). Use fictional names and `@example.com` emails only. The one case per plugin that volunteers child details sets `fictionalChild: true`.
 
 ## Run the check
 

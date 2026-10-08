@@ -30,10 +30,17 @@
         ],
         "logo": "./assets/logo.png",
         "composerIcon": "./assets/composer-icon.png",
-        "longDescription": "Skills for parents and guardians (adults) who are looking for child care: find licensed child care providers near you by city or ZIP code, view a provider's license status, ages, hours and capacity, and compare two to five providers side by side, using public licensing records. See open tour times at schools that publish them on Clear Day, prepare questions for a tour and plan a first day with the two included skills. You can also ask the assistant to request a tour; Clear Day then emails you a confirmation link, and nothing is sent to the provider until you confirm. This plugin is for adults, not for children.",
-        "category": "Productivity",
-        "privacyPolicyURL": "https://useclearday.com/privacy-policy",
-        "termsOfServiceURL": "https://useclearday.com/terms-of-service"
+        "longDescription": "Skills for parents and guardians (adults) who are looking for child care: find licensed child care providers near you by city or ZIP code, view a provider's license status, ages, hours and capacity, and compare two to five providers side by side, using public licensing records. See open tour times at schools that publish them on Clear Day, prepare questions for a tour and plan a first day with the included skills. You can also ask the assistant to request a tour; Clear Day then emails you a confirmation link, and nothing is sent to the provider until you confirm. This plugin is for adults, not for children.",
+        "category": "Education & Research",
+        "privacyPolicyURL": "https://useclearday.com/privacy-policy#connector-parents",
+        "termsOfServiceURL": "https://useclearday.com/terms-of-service",
+        "supportURL": "https://useclearday.com/contact",
+        "capabilities": [
+          "Search licensed child care by city or ZIP code",
+          "View a provider's license status, ages, hours and capacity",
+          "Compare two to five providers side by side",
+          "See open tour times and request a tour"
+        ]
       }
     }
   }

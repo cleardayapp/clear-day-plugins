@@ -1,6 +1,6 @@
 # Clear Day for Parents
 
-Skills that help a family find, view and compare licensed child care providers with the assistant, using public licensing records. The connector can also show open tour times at schools that publish them on Clear Day and request a tour. Two skills come with it: tour questions and a plan for starting child care. This plugin is for adults (parents and guardians) looking for child care. It is not for children.
+Skills that help a family find, view and compare licensed child care providers with the assistant, using public licensing records. The connector can also show open tour times at schools that publish them on Clear Day and request a tour. Four skills come with it: find child care, compare and choose, tour questions, and a plan for starting child care. The first two search and compare providers with the connector's read-only tools; tour questions can also request a tour after your explicit yes. This plugin is for adults (parents and guardians) looking for child care. It is not for children.
 
 ## What it sends and fetches
 

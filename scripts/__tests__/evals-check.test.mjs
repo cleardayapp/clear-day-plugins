@@ -89,9 +89,12 @@ test("the export fails when a submission case uses a planned tool", () => {
   assert.equal(bad.status, 1);
   assert.equal(bad.stdout, "");
   assert.match(bad.stderr, /FAIL par-find-licensed-city/);
-  const good = spawnSync(process.execPath, [script, "--plugin", "parents"], { encoding: "utf8" });
+  const good = spawnSync(process.execPath, [script, "--plugin", "parents", "--format", "table"], { encoding: "utf8" });
   assert.equal(good.status, 0);
   assert.match(good.stdout, /par-find-licensed-city/);
+  const json = spawnSync(process.execPath, [script, "--plugin", "parents"], { encoding: "utf8" });
+  assert.equal(json.status, 0);
+  assert.match(json.stdout, /"tools_triggered": "find_licensed_child_care"/);
 });
 
 test("the export CLI rejects --dir without a folder", () => {
@@ -99,4 +102,35 @@ test("the export CLI rejects --dir without a folder", () => {
   const run = spawnSync(process.execPath, [script, "--plugin", "parents", "--dir"], { encoding: "utf8" });
   assert.equal(run.status, 2);
   assert.match(run.stderr, /--dir needs a folder/);
+});
+
+test("fails when fewer than 3 negatives expect no tool", () =>
+  expectFail(/at least 3 true negative cases/, (ed) =>
+    ed("parents.json", (j) => {
+      const negatives = j.cases.filter((c) => c.kind === "negative" && c.expect.none);
+      for (const c of negatives.slice(2)) c.expect = { tool: "find_licensed_child_care" };
+    })));
+
+test("a negative that expects a tool does not count as a true negative", () => {
+  const { errors } = check(fixture((ed) => ed("parents.json", (j) => {
+    j.cases.push({ ...caseOf(j, "par-neg-weather"), id: "par-neg-extra", expect: { tool: "find_licensed_child_care" } });
+  })));
+  assert.ok(!errors.some((e) => /true negative/.test(e)), errors.join("\n"));
+});
+
+test("fails on the undocumented `new` tool-list key", () =>
+  expectFail(/unknown key "new"/, (ed) =>
+    ed("tool-lists/directors.json", (j) => (j.tools[0].new = true))));
+
+test("fails when a submission case has no description", () =>
+  expectFail(/submission cases need a description/, (ed) =>
+    ed("parents.json", (j) => delete caseOf(j, "par-find-licensed-city").description)));
+
+test("the export prints the documented review.test_cases shape", () => {
+  const { json } = exportSubmission("parents");
+  const tc = JSON.parse(json).extensions["com.openai"].review.test_cases;
+  assert.equal(tc.positive.length, 5);
+  assert.equal(tc.negative.length, 3);
+  for (const c of tc.positive) assert.deepEqual(Object.keys(c), ["description", "prompt", "tools_triggered", "expected_behavior"]);
+  for (const c of tc.negative) assert.deepEqual(Object.keys(c), ["description", "prompt"]);
 });

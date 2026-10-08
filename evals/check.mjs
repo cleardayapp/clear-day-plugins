@@ -8,8 +8,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const PLUGINS = ['directors', 'parents'];
 const KINDS = ['direct', 'indirect', 'negative'];
 const PLANS = ['FREE', 'RUN', 'GROW'];
-const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall', 'confirmed']);
-const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'new', 'status']);
+const CASE_KEYS = new Set(['id', 'prompt', 'kind', 'description', 'expect', 'signedIn', 'plan', 'expectedBehavior', 'notes', 'submission', 'fictionalChild', 'mustNotCall', 'confirmed']);
+const TOOL_KEYS = new Set(['name', 'plans', 'signedIn', 'destructive', 'status']);
 
 const EXPLICIT_CONFIRMATION = /\b(yes|i confirm|go ahead)\b/i;
 const EMAIL = /[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}/g;
@@ -57,7 +57,7 @@ for (const p of PLUGINS) {
   const cases = Array.isArray(data.cases) ? data.cases : [];
   if (!cases.length) err(`${file}: cases must be a non-empty array`);
   const covered = new Set();
-  let planned = 0, pos = 0, neg = 0, subPos = 0, subNeg = 0;
+  let planned = 0, pos = 0, neg = 0, trueNeg = 0, subPos = 0, subNeg = 0;
 
   for (const c of cases) {
     const at = `${file}: ${c.id || '(no id)'}`;
@@ -85,6 +85,7 @@ for (const p of PLUGINS) {
     }
     const positive = c.kind === 'direct' || c.kind === 'indirect';
     positive ? pos++ : c.kind === 'negative' && neg++;
+    if (c.kind === 'negative' && hasNone) trueNeg++;
     if (positive && !hasTool) err(`${at}: ${c.kind} cases must expect a tool`);
     if (tool?.destructive) {
       if (c.confirmed !== true) err(`${at}: ${e.tool} is destructive, so the case needs "confirmed": true`);
@@ -106,6 +107,7 @@ for (const p of PLUGINS) {
     if (p === 'parents' && c.signedIn === true) err(`${at}: parents cases run anonymously (signedIn false)`);
 
     if (c.submission) {
+      if (!isStr(c.description)) err(`${at}: submission cases need a description`);
       positive ? subPos++ : subNeg++;
       if (positive && p === 'directors' && c.plan !== 'FREE') err(`${at}: submission cases must run on a FREE demo school`);
       if (!positive && !hasNone) err(`${at}: submission negatives must expect {none: true}`);
@@ -124,7 +126,7 @@ for (const p of PLUGINS) {
   }
 
   if (pos < 5) err(`${file}: need at least 5 positive cases (have ${pos})`);
-  if (neg < 3) err(`${file}: need at least 3 negative cases (have ${neg})`);
+  if (trueNeg < 3) err(`${file}: need at least 3 true negative cases that expect no tool (have ${trueNeg} of ${neg} negatives)`);
   if (subPos !== 5) err(`${file}: need exactly 5 positive submission cases (have ${subPos})`);
   if (subNeg !== 3) err(`${file}: need exactly 3 negative submission cases (have ${subNeg})`);
   for (const name of tools.keys()) if (!covered.has(name)) err(`${file}: no positive case for tool ${name}`);

@@ -231,7 +231,7 @@ test("openai-legal-urls: both https URLs pass; missing, empty, non-string, http 
   const oa = (r, plugin) => path.join(r, plugin, "plugin.json");
   const bad = [undefined, "", 5, "not a url", "http://useclearday.com/terms", "https:example", "https:///terms"];
   for (const plugin of ["directors", "parents"]) {
-    for (const key of ["privacyPolicyURL", "termsOfServiceURL"]) {
+    for (const key of ["privacyPolicyURL", "termsOfServiceURL", "supportURL"]) {
       for (const value of bad) {
         const root = fixture((r) =>
           editJson(oa(r, plugin), (j) => {
@@ -263,4 +263,48 @@ test("openai-listing-fields: longDescription and category are required", () => {
     }
   }
   assert.deepEqual(validate(fixture()), []);
+});
+
+const UI = (r, plugin) => path.join(r, plugin, "plugin.json");
+const setUi = (r, plugin, fn) => editJson(UI(r, plugin), (j) => fn(j.extensions["com.openai"].interface));
+
+test("openai-category: every documented value passes; an undocumented one fails", () => {
+  for (const category of ["Productivity", "Business & Operations", "Education & Research", "Other"]) {
+    assert.deepEqual(validate(fixture((r) => setUi(r, "parents", (ui) => (ui.category = category)))), []);
+  }
+  for (const plugin of ["directors", "parents"]) {
+    expectFail("openai-category", (r) => setUi(r, plugin, (ui) => (ui.category = "Lifestyle")));
+  }
+});
+
+test("openai-privacy-anchor: each plugin must link its own anchor", () => {
+  assert.deepEqual(validate(fixture()), []);
+  expectFail("openai-privacy-anchor", (r) => setUi(r, "directors", (ui) => (ui.privacyPolicyURL = "https://useclearday.com/privacy-policy")));
+  expectFail("openai-privacy-anchor", (r) => setUi(r, "parents", (ui) => (ui.privacyPolicyURL = "https://useclearday.com/privacy-policy#connector-directors")));
+});
+
+test("openai-capabilities: up to 20 one-line strings pass; more, long, multi-line or non-string entries fail", () => {
+  assert.deepEqual(validate(fixture((r) => setUi(r, "parents", (ui) => (ui.capabilities = Array.from({ length: 20 }, (_, i) => `Capability ${i}`))))), []);
+  assert.deepEqual(validate(fixture((r) => setUi(r, "parents", (ui) => delete ui.capabilities))), []);
+  for (const bad of [Array.from({ length: 21 }, (_, i) => `Capability ${i}`), ["x".repeat(121)], ["two\nlines"], [5], "Read", [""]]) {
+    expectFail("openai-capabilities", (r) => setUi(r, "directors", (ui) => (ui.capabilities = bad)));
+  }
+});
+
+test("rules-drift: a director skill with the shared rules block passes; an edited copy fails", () => {
+  const rules = (r) => fs.readFileSync(path.join(r, "shared", "director-rules.md"), "utf8").trim();
+  const withRules = (r) => edit(skill(r), (t) => t.replace("Tools used:", `${rules(r)}\n\nTools used:`));
+  assert.deepEqual(validate(fixture(withRules)), []);
+  expectFail("rules-drift", (r) => {
+    withRules(r);
+    edit(skill(r), (t) => t.replace("Do not retry in a loop.", "Retry as often as needed."));
+  });
+  expectFail("rules-drift", (r) => {
+    withRules(r);
+    edit(path.join(r, "shared", "director-rules.md"), (t) => t + "- **Extra.** A new rule.\n");
+  });
+  expectFail("rules-drift", (r) => {
+    withRules(r);
+    fs.rmSync(path.join(r, "shared", "director-rules.md"));
+  });
 });
