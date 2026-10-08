@@ -20,10 +20,14 @@
       "kind": "direct",
       "description": "Shows license status, ages, hours and capacity for one provider.",
       "expect": {
-        "tool": "get_child_care_provider"
+        "tool": "get_child_care_provider",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_provider"
+        ]
       },
       "signedIn": false,
-      "expectedBehavior": "Searches by city, then summarizes the provider details the tool returns (license status, ages, hours, capacity) with the source link. Adds nothing from memory.",
+      "expectedBehavior": "Searches by ZIP, then summarizes the provider details the tool returns (license status, ages, hours, capacity) with the source link. Adds nothing from memory.",
       "notes": "Calls find_licensed_child_care first to get the provider. A ZIP search sorts nearest first, and the seeded demo provider sits at the 23219 centroid, so it is found without a hard-coded id.",
       "submission": true
     },
@@ -33,7 +37,11 @@
       "kind": "direct",
       "description": "Compares two licensed providers side by side.",
       "expect": {
-        "tool": "compare_child_care_providers"
+        "tool": "compare_child_care_providers",
+        "chain": [
+          "find_licensed_child_care",
+          "compare_child_care_providers"
+        ]
       },
       "signedIn": false,
       "expectedBehavior": "Compares the two providers side by side using tool data only, cites the source link, and does not recommend one as best.",
@@ -46,10 +54,14 @@
       "kind": "direct",
       "description": "Shows open tour times for a provider with a published site.",
       "expect": {
-        "tool": "get_child_care_tour_times"
+        "tool": "get_child_care_tour_times",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_tour_times"
+        ]
       },
       "signedIn": false,
-      "expectedBehavior": "Finds the demo provider by city, lists its open tour times, and asks which one the parent wants. Requests nothing yet.",
+      "expectedBehavior": "Finds the demo provider by ZIP, lists its open tour times, and asks which one the parent wants. Requests nothing yet.",
       "notes": "Calls find_licensed_child_care first. Depends on the demo seed's \"(Demo)\" provider in ZIP 23219 (Richmond, VA), which has a published Clear Day site and open tour times.",
       "submission": true
     },
@@ -59,7 +71,12 @@
       "kind": "direct",
       "description": "Requests a tour after an explicit yes; Clear Day emails a confirmation link.",
       "expect": {
-        "tool": "request_child_care_tour"
+        "tool": "request_child_care_tour",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_tour_times",
+          "request_child_care_tour"
+        ]
       },
       "signedIn": false,
       "expectedBehavior": "Requests the earliest tour using only the provider, the time, first name, last name, and email, then tells the parent to click the emailed confirmation link; nothing reaches the school until they do.",
@@ -75,7 +92,7 @@
         "tool": "get_child_care_tour_times"
       },
       "signedIn": false,
-      "expectedBehavior": "Finds the provider by city, looks up open tour times and offers them.",
+      "expectedBehavior": "Finds the provider by ZIP, looks up open tour times and offers them.",
       "notes": "Depends on the demo seed's \"(Demo)\" provider in ZIP 23219."
     },
     {

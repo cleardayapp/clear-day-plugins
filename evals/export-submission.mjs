@@ -19,14 +19,13 @@ export function exportSubmission(plugin, dir = here) {
   const sub = cases.filter((c) => c.submission);
   const rows = [...sub.filter((c) => c.kind !== 'negative'), ...sub.filter((c) => c.kind === 'negative')];
   const errors = rows
-    .filter((c) => planned.has(c.expect.tool))
-    .map((c) => `${c.id}: submission cases must use live tools (${c.expect.tool} is planned)`);
+    .flatMap((c) => (c.expect.chain ?? [c.expect.tool]).filter((t) => planned.has(t)).map((t) => `${c.id}: submission cases must use live tools (${t} is planned)`));
   const isNegative = (c) => c.kind === 'negative';
   const testCases = {
     positive: rows.filter((c) => !isNegative(c)).map((c) => ({
       description: c.description,
       prompt: c.prompt,
-      tools_triggered: c.expect.tool,
+      tools_triggered: (c.expect.chain ?? [c.expect.tool]).join(', '),
       expected_behavior: c.expectedBehavior,
     })),
     negative: rows.filter(isNegative).map((c) => ({ description: c.description, prompt: c.prompt })),
@@ -34,7 +33,7 @@ export function exportSubmission(plugin, dir = here) {
   const json = JSON.stringify({ extensions: { 'com.openai': { review: { test_cases: testCases } } } }, null, 2);
   const lines = ['| id | kind | prompt | expectedTool | expectedBehavior |', '| --- | --- | --- | --- | --- |'];
   for (const c of rows) {
-    lines.push(`| ${c.id} | ${isNegative(c) ? 'negative' : 'positive'} | ${cell(c.prompt)} | ${c.expect.tool ? `\`${c.expect.tool}\`` : 'none'} | ${cell(c.expectedBehavior)} |`);
+    lines.push(`| ${c.id} | ${isNegative(c) ? 'negative' : 'positive'} | ${cell(c.prompt)} | ${c.expect.tool ? (c.expect.chain ?? [c.expect.tool]).map((t) => `\`${t}\``).join(', ') : 'none'} | ${cell(c.expectedBehavior)} |`);
   }
   return { json, table: lines.join('\n'), errors };
 }

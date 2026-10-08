@@ -141,3 +141,20 @@ test("the export prints the documented review.test_cases shape", () => {
   for (const c of tc.positive) assert.deepEqual(Object.keys(c), ["description", "prompt", "tools_triggered", "expected_behavior"]);
   for (const c of tc.negative) assert.deepEqual(Object.keys(c), ["description", "prompt"]);
 });
+
+test("a case may declare a call chain that ends with its expected tool", () => {
+  assert.deepEqual(check(fixture()).errors, []);
+  const { json } = exportSubmission("parents");
+  const positive = JSON.parse(json).extensions["com.openai"].review.test_cases.positive;
+  const tourRequest = positive.find((c) => c.tools_triggered.endsWith("request_child_care_tour"));
+  assert.equal(tourRequest.tools_triggered, "find_licensed_child_care, get_child_care_tour_times, request_child_care_tour");
+});
+
+test("fails when a chain names an unknown tool, is too short or does not end with the expected tool", () => {
+  expectFail(/expect\.chain tool "list_everything" is not in parents's pinned list/, (ed) =>
+    ed("parents.json", (j) => (caseOf(j, "par-compare-providers").expect.chain = ["list_everything", "compare_child_care_providers"])));
+  expectFail(/chain must list at least 2 tools/, (ed) =>
+    ed("parents.json", (j) => (caseOf(j, "par-compare-providers").expect.chain = ["compare_child_care_providers"])));
+  expectFail(/chain must end with expect\.tool/, (ed) =>
+    ed("parents.json", (j) => (caseOf(j, "par-compare-providers").expect.chain = ["compare_child_care_providers", "find_licensed_child_care"])));
+});

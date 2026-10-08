@@ -76,8 +76,17 @@ for (const p of PLUGINS) {
 
     const e = c.expect;
     const hasTool = e && isStr(e.tool), hasNone = e && e.none === true;
-    if (!e || typeof e !== 'object' || hasTool === hasNone || Object.keys(e).length !== 1) {
-      err(`${at}: expect must be exactly {tool: name} or {none: true}`);
+    const extraKeys = e ? Object.keys(e).filter((k) => k !== 'chain') : [];
+    if (!e || typeof e !== 'object' || hasTool === hasNone || extraKeys.length !== 1 || (e.chain !== undefined && !hasTool)) {
+      err(`${at}: expect must be exactly {tool: name} (optionally with chain) or {none: true}`);
+    }
+    if (hasTool && e.chain !== undefined) {
+      const chain = e.chain;
+      if (!Array.isArray(chain) || chain.length < 2) err(`${at}: expect.chain must list at least 2 tools in call order`);
+      else {
+        for (const t of chain) if (!tools.has(t)) err(`${at}: expect.chain tool "${t}" is not in ${p}'s pinned list`);
+        if (chain[chain.length - 1] !== e.tool) err(`${at}: expect.chain must end with expect.tool (${e.tool})`);
+      }
     }
     const tool = hasTool ? tools.get(e.tool) : undefined;
     if (hasTool && !tool) {

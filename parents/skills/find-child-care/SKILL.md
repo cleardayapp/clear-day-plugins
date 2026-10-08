@@ -1,6 +1,6 @@
 ---
 name: find-child-care
-description: Finds licensed daycare, preschool and child care providers near a city or ZIP code using public licensing records, shows each provider's license status, ages served, hours and capacity, and checks open tour times. Use when a parent says "find daycare near me", "licensed child care in my ZIP code", "who has openings for a toddler", "daycares that take subsidy or serve meals", "open early or stay open late", or asks about one provider's license or tour times. Reads public records only and needs no sign-in.
+description: Finds licensed daycare, preschool and child care providers near a city or ZIP code using public licensing records, shows each provider's license status, ages served, hours and capacity, and checks open tour times. Use when a parent says "find daycare near me", "licensed child care in my ZIP code", "licensed child care for a toddler", "daycares that take subsidy or serve meals", "open early or stay open late", or asks about one provider's license or tour times. Reads public records only and needs no sign-in.
 ---
 
 # Find licensed child care
@@ -24,6 +24,7 @@ Call `find_licensed_child_care` with the location, the age group and any filters
 - Show each provider with its name, type, city, license status, ages served, hours, capacity, and whether the state lists subsidy and meals. Leave out any detail the tool did not return rather than guessing.
 - Say when the licensing data was last reported by the state, using the date the tool returns. License status can change, so tell the parent to confirm it with the state licensing agency before deciding.
 - Some street addresses are withheld. For those, point to the state record link instead.
+- Capacity is the licensed maximum, not current openings. Tell the parent to ask the provider about openings.
 - If a state requires a data credit, show the credit text the tool returns alongside those providers.
 - If nothing matches, say so, then suggest a larger radius, a nearby ZIP code or fewer filters. Do not widen the search without asking.
 - If the parent wants more, fetch the next page. Do not describe a whole area from one page.

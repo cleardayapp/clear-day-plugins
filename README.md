@@ -80,7 +80,7 @@ There are no `commands/`, `agents/` or `bin/` folders and no `userConfig`; the v
 - `brandColor`, `brandColorDark` and `screenshots` are optional. Screenshots are allowed only for a server with custom UI, which these connectors do not have, so they are left out. We have no approved brand color to publish, so `brandColor` is also left out.
 - `supportURL` points at the contact page on our website. The docs only require an HTTPS support page.
 - Not in the plugin folders and still needed for a final MCP submission: a demo recording URL, release notes, and (for Directors) a demo account entered in the dashboard.
-- The docs do not say whether the review test cases must sit in `plugin.json` or may be entered in the dashboard. `node evals/export-submission.mjs --plugin parents` prints them in the documented `review.test_cases` shape; add `--format table` for a Markdown table.
+- The docs allow the review test cases to be included in `plugin.json` and imported with the ZIP (optional there; five positive and three negative are required for initial review). `node evals/export-submission.mjs --plugin parents` prints them in the documented `review.test_cases` shape; add `--format table` for a Markdown table.
 
 ## License
 
