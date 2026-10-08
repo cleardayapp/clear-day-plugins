@@ -34,6 +34,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     process.exit(2);
   }
   const d = process.argv.indexOf('--dir');
+  if (d > 0 && !process.argv[d + 1]) {
+    console.error('--dir needs a folder');
+    process.exit(2);
+  }
   const { table, errors } = exportSubmission(plugin, d > 0 ? process.argv[d + 1] : here);
   if (errors.length) {
     console.error(errors.map((m) => `FAIL ${m}`).join('\n'));

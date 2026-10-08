@@ -99,7 +99,7 @@
     {
       "id": "par-find-licensed-zip",
       "prompt": "I need child care for my toddler near ZIP 94110. What licensed options are there?",
-      "kind": "indirect",
+      "kind": "direct",
       "expect": {
         "tool": "find_licensed_child_care"
       },

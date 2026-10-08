@@ -93,3 +93,10 @@ test("the export fails when a submission case uses a planned tool", () => {
   assert.equal(good.status, 0);
   assert.match(good.stdout, /par-find-licensed-city/);
 });
+
+test("the export CLI rejects --dir without a folder", () => {
+  const script = path.join(EVALS, "export-submission.mjs");
+  const run = spawnSync(process.execPath, [script, "--plugin", "parents", "--dir"], { encoding: "utf8" });
+  assert.equal(run.status, 2);
+  assert.match(run.stderr, /--dir needs a folder/);
+});

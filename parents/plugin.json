@@ -26,7 +26,7 @@
         "defaultPrompt": [
           "Find licensed daycare centers near me.",
           "Compare two daycare centers side by side.",
-          "Show me open tour times at a school."
+          "Find a licensed provider near me and check its open tour times."
         ],
         "logo": "./assets/logo.png",
         "composerIcon": "./assets/composer-icon.png",
