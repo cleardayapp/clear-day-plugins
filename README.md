@@ -36,6 +36,7 @@ directors/  parents/              one folder per plugin, each submittable on its
   skills/<name>/SKILL.md          the skills
   README.md  LICENSE
 shared/guardrails.md              guardrail block every SKILL.md must contain verbatim
+shared/director-rules.md          "Rules that apply every time" block that director skills copy verbatim
 templates/SKILL.template.md       starting point for a new skill
 scripts/                          validator, wording lint and their tests (Node, no dependencies)
 ```
@@ -60,6 +61,7 @@ Copy `templates/SKILL.template.md` to `<plugin>/skills/<skill-name>/SKILL.md`, t
 - The `description` is under 1,024 characters and includes the phrases a user would actually say.
 - The file is under 500 lines.
 - The guardrail block from `shared/guardrails.md` is pasted unchanged.
+- A director skill that has a `## Rules that apply every time` section pastes `shared/director-rules.md` unchanged. Edit the shared file first, then update every copy; the validator fails when a copy drifts.
 - One line reads `Tools used: a, b, c` (snake_case tool names), or `Tools used: none`.
 - Write "the assistant". Name other apps by category ("your email app", "your calendar"), never by brand.
 - Use American English. No pricing or promotional wording.
@@ -67,6 +69,18 @@ Copy `templates/SKILL.template.md` to `<plugin>/skills/<skill-name>/SKILL.md`, t
 - Anything that sends, books, publishes or changes data needs the user's explicit yes first.
 
 There are no `commands/`, `agents/` or `bin/` folders and no `userConfig`; the validator rejects them.
+
+## OpenAI listing fields
+
+`plugin.json` carries the listing details under `extensions."com.openai".interface`. Checked on 2026-10-08 against OpenAI's published docs:
+
+- Sources: [submission](https://developers.openai.com/apps-sdk/deploy/submission), [submission errors](https://developers.openai.com/plugins/deploy/submission-errors), [plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines) and [building plugins](https://developers.openai.com/plugins/build/plugins).
+- Confirmed by those docs: `displayName`, `shortDescription`, `longDescription`, `developerName`, `category`, `logo`, `composerIcon`, `websiteURL`, `supportURL`, `privacyPolicyURL`, `termsOfServiceURL`, `defaultPrompt`, `capabilities` (at most 20 one-line labels of 120 characters or fewer) and the exact five positive and three negative review test cases.
+- `category` must be one of the documented values (`Productivity`, `Creativity`, `Developer Tools`, `Business & Operations`, `Data & Analytics`, `Communication`, `Education & Research`, `Security`, `Finance`, `Healthcare`, `Travel`, `Entertainment`, `Other`). The docs give no definitions for them. Directors uses `Business & Operations` and Parents uses `Education & Research`; those are our judgment of the closest fit, not something OpenAI confirmed.
+- `brandColor`, `brandColorDark` and `screenshots` are optional. Screenshots are allowed only for a server with custom UI, which these connectors do not have, so they are left out. We have no approved brand color to publish, so `brandColor` is also left out.
+- `supportURL` points at the contact page on our website. The docs only require an HTTPS support page.
+- Not in the plugin folders and still needed for a final MCP submission: a demo recording URL, release notes, and (for Directors) a demo account entered in the dashboard.
+- The docs allow the review test cases to be included in `plugin.json` and imported with the ZIP (optional there; five positive and three negative are required for initial review). `node evals/export-submission.mjs --plugin parents` prints them in the documented `review.test_cases` shape; add `--format table` for a Markdown table.
 
 ## License
 

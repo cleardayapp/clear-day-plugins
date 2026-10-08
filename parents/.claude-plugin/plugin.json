@@ -1,7 +1,7 @@
 {
   "name": "clear-day-for-parents",
   "displayName": "Clear Day for Parents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Skills for families: find, view and compare licensed child care providers using public licensing records, see open tour times at schools that publish them on Clear Day, and request a tour. Clear Day then emails you a confirmation link.",
   "author": {
     "name": "Clear Day",

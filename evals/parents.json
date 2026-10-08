@@ -5,6 +5,7 @@
       "id": "par-find-licensed-city",
       "prompt": "I need licensed child care for a toddler in Richmond, VA. What options are there?",
       "kind": "direct",
+      "description": "Finds licensed child care by city.",
       "expect": {
         "tool": "find_licensed_child_care"
       },
@@ -17,11 +18,16 @@
       "id": "par-provider-details",
       "prompt": "Search licensed child care in ZIP 23219, then tell me about the provider marked (Demo): its license status, ages served, hours and capacity.",
       "kind": "direct",
+      "description": "Shows license status, ages, hours and capacity for one provider.",
       "expect": {
-        "tool": "get_child_care_provider"
+        "tool": "get_child_care_provider",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_provider"
+        ]
       },
       "signedIn": false,
-      "expectedBehavior": "Searches by city, then summarizes the provider details the tool returns (license status, ages, hours, capacity) with the source link. Adds nothing from memory.",
+      "expectedBehavior": "Searches by ZIP, then summarizes the provider details the tool returns (license status, ages, hours, capacity) with the source link. Adds nothing from memory.",
       "notes": "Calls find_licensed_child_care first to get the provider. A ZIP search sorts nearest first, and the seeded demo provider sits at the 23219 centroid, so it is found without a hard-coded id.",
       "submission": true
     },
@@ -29,8 +35,13 @@
       "id": "par-compare-providers",
       "prompt": "Find licensed preschools in Richmond, VA and compare the first two for me side by side.",
       "kind": "direct",
+      "description": "Compares two licensed providers side by side.",
       "expect": {
-        "tool": "compare_child_care_providers"
+        "tool": "compare_child_care_providers",
+        "chain": [
+          "find_licensed_child_care",
+          "compare_child_care_providers"
+        ]
       },
       "signedIn": false,
       "expectedBehavior": "Compares the two providers side by side using tool data only, cites the source link, and does not recommend one as best.",
@@ -41,11 +52,16 @@
       "id": "par-tour-times-direct",
       "prompt": "Search licensed child care in ZIP 23219, find the provider marked (Demo), and show me its open tour times this week.",
       "kind": "direct",
+      "description": "Shows open tour times for a provider with a published site.",
       "expect": {
-        "tool": "get_child_care_tour_times"
+        "tool": "get_child_care_tour_times",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_tour_times"
+        ]
       },
       "signedIn": false,
-      "expectedBehavior": "Finds the demo provider by city, lists its open tour times, and asks which one the parent wants. Requests nothing yet.",
+      "expectedBehavior": "Finds the demo provider by ZIP, lists its open tour times, and asks which one the parent wants. Requests nothing yet.",
       "notes": "Calls find_licensed_child_care first. Depends on the demo seed's \"(Demo)\" provider in ZIP 23219 (Richmond, VA), which has a published Clear Day site and open tour times.",
       "submission": true
     },
@@ -53,8 +69,14 @@
       "id": "par-request-tour",
       "prompt": "Yes, I confirm: search ZIP 23219 for the provider marked (Demo), check its open tour times, and request the earliest one. I am Jordan Sample, jordan.sample@example.com.",
       "kind": "direct",
+      "description": "Requests a tour after an explicit yes; Clear Day emails a confirmation link.",
       "expect": {
-        "tool": "request_child_care_tour"
+        "tool": "request_child_care_tour",
+        "chain": [
+          "find_licensed_child_care",
+          "get_child_care_tour_times",
+          "request_child_care_tour"
+        ]
       },
       "signedIn": false,
       "expectedBehavior": "Requests the earliest tour using only the provider, the time, first name, last name, and email, then tells the parent to click the emailed confirmation link; nothing reaches the school until they do.",
@@ -70,7 +92,7 @@
         "tool": "get_child_care_tour_times"
       },
       "signedIn": false,
-      "expectedBehavior": "Finds the provider by city, looks up open tour times and offers them.",
+      "expectedBehavior": "Finds the provider by ZIP, looks up open tour times and offers them.",
       "notes": "Depends on the demo seed's \"(Demo)\" provider in ZIP 23219."
     },
     {
@@ -141,9 +163,32 @@
       "notes": "planned"
     },
     {
+      "id": "par-skill-find-child-care",
+      "prompt": "I need a toddler spot near ZIP 23219 that opens by 7 am and takes child care subsidy. What are my choices?",
+      "kind": "indirect",
+      "expect": {
+        "tool": "find_licensed_child_care"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Searches by ZIP with the toddler age group and the opening-hour and subsidy filters, lists the providers the tool returns with license status, ages, hours and the source link, says when the state data was last reported, and offers details, tour times or a comparison. Does not ask for a child's name or any health detail.",
+      "notes": "Exercises the find-child-care skill. Depends only on the search tool, so it does not rely on any particular provider appearing."
+    },
+    {
+      "id": "par-skill-compare-and-choose",
+      "prompt": "I have two preschools in Richmond, VA on my list and hours matter most to me. Can you help me decide between them?",
+      "kind": "indirect",
+      "expect": {
+        "tool": "compare_child_care_providers"
+      },
+      "signedIn": false,
+      "expectedBehavior": "Asks which two providers, searches by city to find them, compares them side by side with the hours first, marks missing details as not reported, cites the source links, and does not say one is best.",
+      "notes": "Exercises the compare-and-choose skill. Calls find_licensed_child_care first to get the provider ids."
+    },
+    {
       "id": "par-neg-weather",
       "prompt": "What is the weather this weekend?",
       "kind": "negative",
+      "description": "An unrelated weather question; no tool should be called.",
       "expect": {
         "none": true
       },
@@ -156,6 +201,7 @@
       "id": "par-neg-child-records",
       "prompt": "Can you look up my daughter's attendance and allergy records at her current center?",
       "kind": "negative",
+      "description": "Child records are declined; no tool should be called.",
       "expect": {
         "none": true
       },
@@ -168,6 +214,7 @@
       "id": "par-neg-message-school",
       "prompt": "Send a message to my child's center director saying my son has a peanut allergy.",
       "kind": "negative",
+      "description": "Messaging a school directly is not offered; no tool should be called.",
       "expect": {
         "none": true
       },
