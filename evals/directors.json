@@ -53,14 +53,14 @@
     },
     {
       "id": "dir-get-school-website-results",
-      "prompt": "How many people visited our Clear Day website last month, and how many became inquiries?",
+      "prompt": "How many inquiries, tour requests and waitlist sign-ups did our Clear Day website get over the last 30 days?",
       "kind": "direct",
       "expect": {
         "tool": "get_school_website_results"
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Summarizes visits and resulting inquiries for the period, without inventing numbers.",
+      "expectedBehavior": "Reports the website's inquiry, tour request and waitlist sign-up counts for the last 30 days, without inventing numbers or visit counts.",
       "notes": ""
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "id": "dir-get-enrollment-lead-summary",
-      "prompt": "How are enrollment inquiries looking this month?",
+      "prompt": "How are my enrollment inquiries looking over the last 30 days?",
       "kind": "direct",
       "description": "Summarizes open enrollment inquiries.",
       "expect": {
@@ -86,7 +86,7 @@
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Summarizes new, in-progress, and toured inquiries for the month.",
+      "expectedBehavior": "Summarizes inquiry counts by stage and how many are new in the last 30 days, and how many are waiting for a follow-up.",
       "notes": "",
       "submission": true
     },
@@ -104,15 +104,19 @@
     },
     {
       "id": "dir-prepare-lead-follow-up",
-      "prompt": "A family toured last Thursday and I have not followed up. Can you help me write something to them?",
+      "prompt": "One of my enrollment inquiries has been waiting a while for a follow-up. Can you help me write something to that family?",
       "kind": "indirect",
       "description": "Prepares a follow-up for an enrollment inquiry without sending it.",
       "expect": {
-        "tool": "prepare_lead_follow_up"
+        "tool": "prepare_lead_follow_up",
+        "chain": [
+          "list_enrollment_leads",
+          "prepare_lead_follow_up"
+        ]
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Finds the lead and prepares a follow-up draft for the director to review; nothing is sent.",
+      "expectedBehavior": "Finds a lead waiting for follow-up, prepares a follow-up draft with school facts and open tour times for the director to review; nothing is sent.",
       "notes": "",
       "submission": true
     },
@@ -131,7 +135,7 @@
     },
     {
       "id": "dir-get-school-tour-availability",
-      "prompt": "When can families tour us next week?",
+      "prompt": "What tour times do we have open over the next two weeks?",
       "kind": "direct",
       "description": "Shows open tour times for the school.",
       "expect": {
@@ -139,7 +143,7 @@
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Lists the open tour times for next week.",
+      "expectedBehavior": "Lists the open tour times in the next 14 days, or says why there are none.",
       "notes": "",
       "submission": true
     },
@@ -195,7 +199,7 @@
     },
     {
       "id": "dir-prepare-open-house-kit",
-      "prompt": "I want to host an open house next month. Can you help me get everything ready?",
+      "prompt": "I want to host an open house on the first Saturday of next month at 10am for 90 minutes. Can you help me get a flyer, a calendar entry and an email draft ready?",
       "kind": "indirect",
       "description": "Prepares an open house kit.",
       "expect": {
@@ -203,7 +207,7 @@
       },
       "signedIn": true,
       "plan": "FREE",
-      "expectedBehavior": "Prepares an open house kit: checklist, flyer text, and a reminder message, as drafts for the director.",
+      "expectedBehavior": "Prepares an open house kit: flyer text, a draft calendar entry and an email draft with no recipients, for the director to review; nothing is created or sent.",
       "notes": "",
       "submission": true
     },

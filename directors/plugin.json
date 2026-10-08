@@ -26,7 +26,7 @@
         "defaultPrompt": [
           "Show me my open enrollment inquiries and which ones need a reply.",
           "Help me prepare for tomorrow's tours.",
-          "How is my school website doing this week?"
+          "How has my school website done over the last 30 days?"
         ],
         "logo": "./assets/logo.png",
         "composerIcon": "./assets/composer-icon.png",
