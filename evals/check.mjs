@@ -91,7 +91,7 @@ for (const p of PLUGINS) {
       if (!EXPLICIT_CONFIRMATION.test(c.prompt || '')) err(`${at}: prompt must contain an explicit confirmation (for example "Yes, I confirm")`);
     } else if (c.confirmed !== undefined) err(`${at}: confirmed is only for cases expecting a destructive tool`);
     if (tool?.status === 'planned') planned++;
-    if (tool?.status === 'planned' && c.submission && p === 'directors') err(`${at}: directors submission cases must use live tools (${e.tool} is planned)`);
+    if (tool?.status === 'planned' && c.submission) err(`${at}: ${p} submission cases must use live tools (${e.tool} is planned)`);
     if (tool) {
       if (positive) covered.add(e.tool);
       if (tool.signedIn && c.signedIn !== true) err(`${at}: ${e.tool} needs sign-in but signedIn is not true`);

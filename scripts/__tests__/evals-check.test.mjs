@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { check } from "../../evals/check.mjs";
+import { exportSubmission } from "../../evals/export-submission.mjs";
 import { editJson } from "./helpers.mjs";
 
 const EVALS = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "evals");
@@ -55,3 +57,39 @@ test("fails when a destructive tool prompt has no explicit confirmation", () =>
 test("fails on a birth date outside the flagged privacy case", () =>
   expectFail(/birth date/, (ed) =>
     ed("directors.json", (j) => (caseOf(j, "dir-list-my-schools").prompt += " One child was born 01/01/2000."))));
+
+test("passes when only non-submission parents cases use planned tools", () => {
+  const { errors } = check(fixture());
+  assert.deepEqual(errors, []);
+  const parents = JSON.parse(fs.readFileSync(path.join(EVALS, "parents.json"), "utf8"));
+  const list = JSON.parse(fs.readFileSync(path.join(EVALS, "tool-lists", "parents.json"), "utf8"));
+  const planned = new Set(list.tools.filter((t) => t.status === "planned").map((t) => t.name));
+  assert.ok(parents.cases.some((c) => planned.has(c.expect.tool) && !c.submission));
+});
+
+test("fails when a parents submission case uses a planned tool", () =>
+  expectFail(/parents submission cases must use live tools/, (ed) =>
+    ed("parents.json", (j) => (caseOf(j, "par-find-licensed-city").expect.tool = "get_child_care_help_paying"))));
+
+test("fails when a directors submission case uses a planned tool", () =>
+  expectFail(/directors submission cases must use live tools/, (ed) =>
+    ed("tool-lists/directors.json", (j) => (j.tools.find((t) => t.name === "get_school_website_status").status = "planned"))));
+
+test("the export has no errors for the real submission sets", () => {
+  for (const p of ["directors", "parents"]) assert.deepEqual(exportSubmission(p).errors, []);
+});
+
+test("the export fails when a submission case uses a planned tool", () => {
+  const dir = fixture((ed) => ed("parents.json", (j) => (caseOf(j, "par-find-licensed-city").expect.tool = "get_child_care_help_paying")));
+  const { errors } = exportSubmission("parents", dir);
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /par-find-licensed-city.*get_child_care_help_paying is planned/);
+  const script = path.join(EVALS, "export-submission.mjs");
+  const bad = spawnSync(process.execPath, [script, "--plugin", "parents", "--dir", dir], { encoding: "utf8" });
+  assert.equal(bad.status, 1);
+  assert.equal(bad.stdout, "");
+  assert.match(bad.stderr, /FAIL par-find-licensed-city/);
+  const good = spawnSync(process.execPath, [script, "--plugin", "parents"], { encoding: "utf8" });
+  assert.equal(good.status, 0);
+  assert.match(good.stdout, /par-find-licensed-city/);
+});

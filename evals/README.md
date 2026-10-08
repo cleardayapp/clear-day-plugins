@@ -7,9 +7,9 @@ Test cases for each plugin: prompts, the tool the assistant is expected to call 
 | `directors.json`, `parents.json` | Cases. `submission: true` marks the 5 positive + 3 negative cases exported as the submission set. |
 | `tool-lists/*.json` | Pinned tool names with `plans` and `signedIn`. Update when the connector's tools change. |
 | `check.mjs` | Validates shape, counts, tool names, and privacy rules. |
-| `export-submission.mjs` | Prints the submission cases as a Markdown table. |
+| `export-submission.mjs` | Prints the submission cases as a Markdown table; exits 1 if one expects a planned tool. |
 
-Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them, and directors submission cases must use live tools. Flip a tool's `status` to `live` when it ships.
+Tools in `tool-lists/*.json` carry `status`: `live` or `planned`. Planned tools are not available yet but have cases so the set is ready when they are. `check.mjs` prints how many cases depend on them. Submission cases (either plugin) must use live tools: `check.mjs` and `export-submission.mjs` both fail otherwise. Flip a tool's `status` to `live` when it ships.
 
 The export columns are `id`, `kind`, `prompt`, `expectedTool`, `expectedBehavior`. If a submission form asks for different fields, adjust `export-submission.mjs`.
 
@@ -27,7 +27,7 @@ Node 20 or newer, no dependencies. The check exits non-zero on any problem.
 
 ## Record a manual pass
 
-1. Directors: sign in to a FREE-plan demo school for every case with `plan: "FREE"` (this covers all submission cases). Cases marked `RUN` or `GROW` need a demo school on that plan (or higher) to reach their tool; run them separately. Parents: use the connector anonymously.
+1. Directors: sign in to a FREE-plan demo school for every case with `plan: "FREE"` (this covers all submission cases). Cases marked `RUN` or `GROW` need a demo school on that plan (or higher) to reach their tool; run them separately. Parents: use the connector anonymously. Tour cases need the seeded "(Demo)" provider in the demo school's city (Richmond, VA).
 2. In Claude, add the connector, start a new chat, and paste each case's `prompt`.
 3. Repeat in ChatGPT with the app enabled.
 4. For each case, note whether the expected tool was called (or no tool for `{none: true}`), whether the behavior matched `expectedBehavior`, and the date. Keep results outside this repo.

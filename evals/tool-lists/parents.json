@@ -30,7 +30,7 @@
         "GROW"
       ],
       "signedIn": false,
-      "status": "planned"
+      "status": "live"
     },
     {
       "name": "get_child_care_provider",
@@ -40,7 +40,7 @@
         "GROW"
       ],
       "signedIn": false,
-      "status": "planned"
+      "status": "live"
     },
     {
       "name": "compare_child_care_providers",
@@ -50,7 +50,7 @@
         "GROW"
       ],
       "signedIn": false,
-      "status": "planned"
+      "status": "live"
     },
     {
       "name": "explain_child_care_license_types",
