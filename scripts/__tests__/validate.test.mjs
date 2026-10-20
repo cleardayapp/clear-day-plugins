@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
 import { validate, LIMITS } from "../validate.mjs";
-import { DEFAULT_ROOT } from "../lib.mjs";
+import { DEFAULT_ROOT, readJson } from "../lib.mjs";
 import { edit, editJson, fixture, sampleSkill } from "./helpers.mjs";
 
 const rulesOf = (root) => validate(root).map((e) => e.split(":")[0]);
@@ -113,12 +113,20 @@ test("mcp-url: wrong URL fails in either config, and the plugins are not interch
 test("mcp-type: wrong transport type fails", () => {
   expectFail("mcp-type", (r) => editJson(D(r, "mcp.json"), (j) => (j.mcpServers["clear-day"].type = "http")));
 });
-test("mcp-openai-auth: Directors must declare oauth and Parents none, only in mcp.json", () => {
-  const auth = (j) => j.mcpServers["clear-day"].extensions["com.openai"].auth;
-  expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => (auth(j).type = "none")));
+test("mcp-openai-auth: the exact auth objects pass; a wrong, missing or padded one fails", () => {
+  const P = (r, ...p) => path.join(r, "parents", ...p);
+  const ext = (j) => j.mcpServers["clear-day"].extensions;
+  assert.ok(!rulesOf(fixture()).includes("mcp-openai-auth"));
+  assert.deepEqual(ext(readJson(D(DEFAULT_ROOT, "mcp.json")).value),
+    { "com.openai": { auth: { type: "oauth", client: { mode: "cimd" } } } });
+  assert.deepEqual(ext(readJson(P(DEFAULT_ROOT, "mcp.json")).value), { "com.openai": { auth: { type: "none" } } });
+  expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => (ext(j)["com.openai"].auth = { type: "none" })));
   expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => delete j.mcpServers["clear-day"].extensions));
+  expectFail("mcp-openai-auth", (r) => editJson(P(r, "mcp.json"), (j) => delete j.mcpServers["clear-day"].extensions));
+  expectFail("mcp-openai-auth", (r) => editJson(P(r, "mcp.json"), (j) => (ext(j)["com.openai"].auth = { type: "oauth" })));
   expectFail("mcp-openai-auth", (r) =>
-    editJson(path.join(r, "parents", "mcp.json"), (j) => (auth(j).type = "oauth")));
+    editJson(D(r, "mcp.json"), (j) => (ext(j)["com.openai"].auth.client.clientSecret = "do-not-ship")));
+  expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => (ext(j)["com.openai"].auht = {})));
   expectFail("mcp-openai-auth", (r) =>
     editJson(D(r, ".mcp.json"), (j) => (j.mcpServers["clear-day"].extensions = { "com.openai": { auth: { type: "oauth" } } })));
 });

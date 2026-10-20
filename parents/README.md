@@ -2,15 +2,6 @@
 
 Skills that help a family find, view and compare licensed child care providers with the assistant, using public licensing records. The connector can also show open tour times at schools that publish them on Clear Day and request a tour. Four skills come with it: find child care, compare and choose, tour questions, and a plan for starting child care. The first two search and compare providers with the connector's read-only tools; tour questions can also request a tour after your explicit yes. This plugin is for adults (parents and guardians) looking for child care. It is not for children.
 
-## Install
-
-Add the Clear Day marketplace from this repository, then install the plugin:
-
-```
-/plugin marketplace add cleardayapp/clear-day-plugins
-/plugin install clear-day-for-parents@clear-day
-```
-
 ## What it sends and fetches
 
 - **One connection.** The plugin connects to a single remote server, `https://mcp.useclearday.com/mcp/find`. It makes no other network requests.
