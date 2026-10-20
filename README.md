@@ -79,6 +79,8 @@ There are no `commands/`, `agents/` or `bin/` folders and no `userConfig`; the v
 - `category` must be one of the documented values (`Productivity`, `Creativity`, `Developer Tools`, `Business & Operations`, `Data & Analytics`, `Communication`, `Education & Research`, `Security`, `Finance`, `Healthcare`, `Travel`, `Entertainment`, `Other`). The docs give no definitions for them. Directors uses `Business & Operations` and Parents uses `Education & Research`; those are our judgment of the closest fit, not something OpenAI confirmed.
 - `brandColor`, `brandColorDark` and `screenshots` are optional. Screenshots are allowed only for a server with custom UI, which these connectors do not have, so they are left out. We have no approved brand color to publish, so `brandColor` is also left out.
 - `supportURL` points at the contact page on our website. The docs only require an HTTPS support page.
+- Each `mcp.json` declares its sign-in under `extensions."com.openai".auth`: `oauth` for Directors, `none` for Parents (the validator enforces both). The Claude `.mcp.json` files carry no `extensions`; Claude discovers sign-in from the server.
+- `logo.png` (256 px) and `composer-icon.png` (64 px) are the Clear Day sun mark that the website serves as its own icon.
 - Not in the plugin folders and still needed for a final MCP submission: a demo recording URL, release notes, and (for Directors) a demo account entered in the dashboard.
 - The docs allow the review test cases to be included in `plugin.json` and imported with the ZIP (optional there; five positive and three negative are required for initial review). `node evals/export-submission.mjs --plugin parents` prints them in the documented `review.test_cases` shape; add `--format table` for a Markdown table.
 

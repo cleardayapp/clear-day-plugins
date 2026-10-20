@@ -2,6 +2,15 @@
 
 Skills that help a childcare director work through enrollment inquiries, tours and the school website with the assistant. Every call to the Clear Day connector requires signing in with a Clear Day director or teacher account.
 
+## Install
+
+Add the Clear Day marketplace from this repository, then install the plugin:
+
+```
+/plugin marketplace add cleardayapp/clear-day-plugins
+/plugin install clear-day-for-directors@clear-day
+```
+
 ## What it sends and fetches
 
 - **One connection.** The plugin connects to a single remote server, `https://mcp.useclearday.com/mcp`. It makes no other network requests.

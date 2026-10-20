@@ -113,6 +113,15 @@ test("mcp-url: wrong URL fails in either config, and the plugins are not interch
 test("mcp-type: wrong transport type fails", () => {
   expectFail("mcp-type", (r) => editJson(D(r, "mcp.json"), (j) => (j.mcpServers["clear-day"].type = "http")));
 });
+test("mcp-openai-auth: Directors must declare oauth and Parents none, only in mcp.json", () => {
+  const auth = (j) => j.mcpServers["clear-day"].extensions["com.openai"].auth;
+  expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => (auth(j).type = "none")));
+  expectFail("mcp-openai-auth", (r) => editJson(D(r, "mcp.json"), (j) => delete j.mcpServers["clear-day"].extensions));
+  expectFail("mcp-openai-auth", (r) =>
+    editJson(path.join(r, "parents", "mcp.json"), (j) => (auth(j).type = "oauth")));
+  expectFail("mcp-openai-auth", (r) =>
+    editJson(D(r, ".mcp.json"), (j) => (j.mcpServers["clear-day"].extensions = { "com.openai": { auth: { type: "oauth" } } })));
+});
 test("mcp-inline: servers declared inline in the Claude manifest fail", () => {
   expectFail("mcp-inline", (r) => editJson(D(r, ".claude-plugin", "plugin.json"), (j) => (j.mcpServers = {})));
 });

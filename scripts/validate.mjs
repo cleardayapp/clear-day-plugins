@@ -198,6 +198,14 @@ export function validate(root = DEFAULT_ROOT) {
       if (server.url !== spec.url) err("mcp-url", p, `url must be ${spec.url}, got ${server.url}`);
       if (server.type !== type) err("mcp-type", p, `type must be ${type}, got ${server.type}`);
       if (server.headers || server.env || server.command) err("mcp-config", p, "headers, env and command are not allowed");
+      // OpenAI reads each server's sign-in from extensions."com.openai".auth; Claude discovers it itself.
+      const auth = server.extensions?.["com.openai"]?.auth;
+      if (file === "mcp.json") {
+        if (auth?.type !== spec.openaiAuth)
+          err("mcp-openai-auth", p, `extensions."com.openai".auth.type must be ${spec.openaiAuth}, got ${auth?.type}`);
+      } else if (server.extensions !== undefined) {
+        err("mcp-openai-auth", p, "extensions belong in mcp.json, not .mcp.json");
+      }
     }
 
     // OpenAI manifest.

@@ -10,11 +10,13 @@ export const PLUGINS = {
     name: "clear-day-for-directors",
     displayName: "Clear Day for Directors",
     url: "https://mcp.useclearday.com/mcp",
+    openaiAuth: "oauth",
   },
   parents: {
     name: "clear-day-for-parents",
     displayName: "Clear Day for Parents",
     url: "https://mcp.useclearday.com/mcp/find",
+    openaiAuth: "none",
   },
 };
 
