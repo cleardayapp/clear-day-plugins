@@ -10,11 +10,15 @@ export const PLUGINS = {
     name: "clear-day-for-directors",
     displayName: "Clear Day for Directors",
     url: "https://mcp.useclearday.com/mcp",
+    // The exact extensions."com.openai".auth object mcp.json must declare. CIMD is how
+    // the API's authorization server expects OpenAI's client to register.
+    openaiAuth: { type: "oauth", client: { mode: "cimd" } },
   },
   parents: {
     name: "clear-day-for-parents",
     displayName: "Clear Day for Parents",
     url: "https://mcp.useclearday.com/mcp/find",
+    openaiAuth: { type: "none" },
   },
 };
 

@@ -3,7 +3,17 @@
   "mcpServers": {
     "clear-day": {
       "type": "streamable-http",
-      "url": "https://mcp.useclearday.com/mcp"
+      "url": "https://mcp.useclearday.com/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "cimd"
+            }
+          }
+        }
+      }
     }
   }
 }

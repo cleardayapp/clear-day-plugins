@@ -3,6 +3,7 @@
 // Usage: node scripts/validate.mjs [repoRoot]
 import fs from "node:fs";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
 import { fileURLToPath } from "node:url";
 import {
   DEFAULT_ROOT,
@@ -178,9 +179,9 @@ export function validate(root = DEFAULT_ROOT) {
     }
 
     // MCP configs: exactly one server, the right URL.
-    for (const [file, type] of [
-      [".mcp.json", "http"],
-      ["mcp.json", "streamable-http"],
+    for (const [file, type, openaiAuth] of [
+      [".mcp.json", "http", false],
+      ["mcp.json", "streamable-http", true],
     ]) {
       const p = path.join(dir, file);
       const j = fs.existsSync(p) ? readJson(p) : { error: "missing" };
@@ -198,6 +199,15 @@ export function validate(root = DEFAULT_ROOT) {
       if (server.url !== spec.url) err("mcp-url", p, `url must be ${spec.url}, got ${server.url}`);
       if (server.type !== type) err("mcp-type", p, `type must be ${type}, got ${server.type}`);
       if (server.headers || server.env || server.command) err("mcp-config", p, "headers, env and command are not allowed");
+      // OpenAI reads each server's sign-in from extensions."com.openai".auth; Claude discovers it itself.
+      // Exact match, so no client ID, secret, endpoint override or stray key can slip in.
+      if (openaiAuth) {
+        const want = { "com.openai": { auth: spec.openaiAuth } };
+        if (!isDeepStrictEqual(server.extensions, want))
+          err("mcp-openai-auth", p, `extensions must be exactly ${JSON.stringify(want)}, got ${JSON.stringify(server.extensions)}`);
+      } else if (server.extensions !== undefined) {
+        err("mcp-openai-auth", p, "extensions belong in mcp.json, not .mcp.json");
+      }
     }
 
     // OpenAI manifest.
