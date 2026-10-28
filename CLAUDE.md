@@ -4,7 +4,7 @@ Public repo for the `clear-day-for-directors` (`directors/`) and `clear-day-for-
 
 ## Check
 
-`npm run check` must pass before every commit. It runs the validator, the wording lint and the node tests. Node 20+, no dependencies.
+`npm run check` must pass before every commit. It runs the validator, the wording lint, the eval-case check (`evals/check.mjs`) and the node tests. Node 20+, no dependencies.
 
 ## Conventions
 
