@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { DEFAULT_ROOT, readGuardrails } from "../lib.mjs";
+import { DEFAULT_ROOT, guardrailsFileFor, readGuardrails } from "../lib.mjs";
 
-const COPY = [".claude-plugin", "shared", "templates", "directors", "parents"];
+const COPY = [".claude-plugin", "shared", "templates", "directors", "parents", "family"];
 
-export function sampleSkill(root, { name = "sample-skill", body = "" } = {}) {
+export function sampleSkill(root, { name = "sample-skill", body = "", plugin = "directors" } = {}) {
   return `---
 name: ${name}
 description: A sample skill used by the fixtures.
@@ -15,7 +15,7 @@ description: A sample skill used by the fixtures.
 
 Tools used: find_things, get_thing
 ${body}
-${readGuardrails(root)}
+${readGuardrails(root, guardrailsFileFor(plugin))}
 `;
 }
 
@@ -23,10 +23,10 @@ ${readGuardrails(root)}
 export function fixture(mutate) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "plugins-fixture-"));
   for (const d of COPY) fs.cpSync(path.join(DEFAULT_ROOT, d), path.join(root, d), { recursive: true });
-  for (const p of ["directors", "parents"]) {
+  for (const p of ["directors", "parents", "family"]) {
     const dir = path.join(root, p, "skills", "sample-skill");
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, "SKILL.md"), sampleSkill(root));
+    fs.writeFileSync(path.join(dir, "SKILL.md"), sampleSkill(root, { plugin: p }));
   }
   if (mutate) mutate(root, (rel) => path.join(root, rel));
   return root;

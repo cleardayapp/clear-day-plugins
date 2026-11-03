@@ -1,13 +1,14 @@
 # Clear Day plugins
 
-Two plugins that add Clear Day skills to an AI assistant, one for childcare directors and one for families.
+Three plugins that add Clear Day skills to an AI assistant: one for childcare directors, one for families looking for care, and one for families who use Clear Day Family.
 
 | Folder | Plugin name | For | Clear Day connector |
 | --- | --- | --- | --- |
 | `directors/` | `clear-day-for-directors` | Childcare directors: enrollment inquiries, tours, open houses, the school website, notices and policies | `https://mcp.useclearday.com/mcp` |
 | `parents/` | `clear-day-for-parents` | Families: finding, viewing and comparing licensed child care providers, open tour times and tour requests | `https://mcp.useclearday.com/mcp/find` |
+| `family/` | `clear-day-family` | Families who use Clear Day Family: their own upcoming plans, a child's schedule and day, reminders | `https://mcp.useclearday.com/mcp/family` |
 
-The skills in this repo are instructions. The tools they call (listing leads, finding tour times, searching public childcare records and so on) come from each plugin's Clear Day connector, which the plugin registers for you. Every call to the Directors connector requires signing in with a Clear Day director or teacher account. The Parents plugin is for adults (parents and guardians) looking for child care, reads public records and needs no sign-in; its one write is a tour request, which makes Clear Day email the parent a confirmation link.
+The skills in this repo are instructions. The tools they call (listing leads, finding tour times, searching public childcare records and so on) come from each plugin's Clear Day connector, which the plugin registers for you. Every call to the Directors connector requires signing in with a Clear Day director or teacher account. The Parents plugin is for adults (parents and guardians) looking for child care, reads public records and needs no sign-in; its one write is a tour request, which makes Clear Day email the parent a confirmation link. The Family plugin signs in with the emailed code from Clear Day Family and reads only that family's own plans and logs; its writes add a reminder or mark an item done, after the parent confirms.
 
 ## Install in Claude Code
 
@@ -15,27 +16,29 @@ The skills in this repo are instructions. The tools they call (listing leads, fi
 /plugin marketplace add cleardayapp/clear-day-plugins
 /plugin install clear-day-for-directors@clear-day
 /plugin install clear-day-for-parents@clear-day
+/plugin install clear-day-family@clear-day
 ```
 
-Install one or both. To try a plugin straight from a checkout, run `claude --plugin-dir directors` or `claude --plugin-dir parents`.
+Install any of them. To try a plugin straight from a checkout, run `claude --plugin-dir directors`, `claude --plugin-dir parents` or `claude --plugin-dir family`.
 
 Each plugin folder is also a standalone package for other assistants that read an OpenAI-style manifest (`plugin.json` and `mcp.json` at the plugin root, with `extensions."com.openai"` for listing details).
 
 ## Privacy
 
-The skills never ask for, accept or repeat a child's name, birth date, photo or health details. They use an age group instead. Each plugin's README lists exactly what it sends and fetches. The plugins store nothing themselves, and the assistant confirms with you before any change or message and only sends what you explicitly approved.
+The Directors and Parents skills never ask for, accept or repeat a child's name, birth date, photo or health details. They use an age group instead. The Family skills use only the child names the Family connector returns for the signed-in family, and never a birth date, photo or health detail; health and medical details are never available through that connector. Each plugin's README lists exactly what it sends and fetches. The plugins store nothing themselves, and the assistant confirms with you before any change or message and only sends what you explicitly approved.
 
 ## Repo layout
 
 ```
-.claude-plugin/marketplace.json   the Clear Day marketplace (lists both plugins)
-directors/  parents/              one folder per plugin, each submittable on its own
+.claude-plugin/marketplace.json   the Clear Day marketplace (lists every plugin)
+directors/  parents/  family/     one folder per plugin, each submittable on its own
   .claude-plugin/plugin.json      Claude manifest
   .mcp.json                       Claude connector config
   plugin.json  mcp.json           OpenAI manifest and connector config
   skills/<name>/SKILL.md          the skills
   README.md  LICENSE
-shared/guardrails.md              guardrail block every SKILL.md must contain verbatim
+shared/guardrails.md              guardrail block every directors and parents SKILL.md must contain verbatim
+shared/guardrails-family.md       the Family plugin's guardrail block (family skills carry this one instead)
 shared/director-rules.md          "Rules that apply every time" block that director skills copy verbatim
 templates/SKILL.template.md       starting point for a new skill
 scripts/                          validator, wording lint and their tests (Node, no dependencies)

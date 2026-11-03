@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "clear-day-family",
+  "version": "0.1.0",
+  "description": "Skills for a family signed in to Clear Day Family: see what's coming up, check a child's schedule for a day, see a child's day at a glance, and add a reminder or mark an item done.",
+  "author": {
+    "name": "Clear Day",
+    "url": "https://useclearday.com"
+  },
+  "homepage": "https://useclearday.com",
+  "repository": "https://github.com/cleardayapp/clear-day-plugins",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "family",
+    "parents",
+    "reminders",
+    "schedule"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Clear Day Family",
+        "shortDescription": "Your family's plans and days",
+        "developerName": "Clear Day",
+        "websiteURL": "https://useclearday.com",
+        "defaultPrompt": [
+          "What's coming up for our family this week?",
+          "What's on my child's school schedule today?",
+          "Remind me to bring a pumpkin on Friday."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png",
+        "longDescription": "Skills for parents and guardians (adults) who use Clear Day Family. Sign in with the emailed code from Clear Day Family, then ask what's coming up for your family, what's on a child's schedule for a day, or how a child's day is going from your own logs. Answers say which email each plan came from. You can also ask the assistant to add a reminder or mark an item done; it asks you first. It reads only your family's own plans and logs: no photos, no notes, no health or medical details, no school records and nothing about other families. This plugin is for adults, not for children.",
+        "category": "Productivity",
+        "privacyPolicyURL": "https://useclearday.com/privacy-policy#connector-family",
+        "termsOfServiceURL": "https://useclearday.com/terms-of-service",
+        "supportURL": "https://useclearday.com/contact",
+        "capabilities": [
+          "See your family's upcoming events, tasks and reminders",
+          "Check a child's schedule for a day",
+          "See a child's day from your own logs",
+          "Add a reminder or mark an item done"
+        ]
+      }
+    }
+  }
+}

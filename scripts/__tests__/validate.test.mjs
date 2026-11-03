@@ -61,6 +61,24 @@ test("guardrail-missing: edited block fails", () => {
 test("guardrail-missing: a changed canonical block fails every skill", () => {
   expectFail("guardrail-missing", (r) => edit(path.join(r, "shared", "guardrails.md"), (t) => t + "- One more rule.\n"));
 });
+test("guardrail-missing: a family skill carries the family block, which passes", () => {
+  assert.deepEqual(validate(fixture()), []);
+});
+test("guardrail-missing: a family skill with the general block fails", () => {
+  expectFail("guardrail-missing", (r) =>
+    fs.writeFileSync(skill(r, "family"), sampleSkill(r, { plugin: "parents" })));
+});
+test("guardrail-missing: a parents skill with the family block fails", () => {
+  expectFail("guardrail-missing", (r) =>
+    fs.writeFileSync(skill(r, "parents"), sampleSkill(r, { plugin: "family" })));
+});
+test("guardrail-missing: an edited family block fails", () => {
+  expectFail("guardrail-missing", (r) =>
+    edit(skill(r, "family"), (t) => t.replace("Health and medical details are never available", "Health details are available")));
+});
+test("guardrails-source: missing family guardrail file fails", () => {
+  expectFail("guardrails-source", (r) => fs.rmSync(path.join(r, "shared", "guardrails-family.md")));
+});
 test("guardrails-source: missing canonical file fails", () => {
   expectFail("guardrails-source", (r) => fs.rmSync(path.join(r, "shared", "guardrails.md")));
 });
@@ -204,13 +222,14 @@ test("plugin-missing: a missing plugin directory fails", () => {
 
 const MJ = (root) => path.join(root, ".claude-plugin", "marketplace.json");
 
-test("marketplace: the real file passes and has the two plugin entries", () => {
+test("marketplace: the real file passes and has the three plugin entries", () => {
   assert.deepEqual(validate(DEFAULT_ROOT), []);
   const m = JSON.parse(fs.readFileSync(MJ(DEFAULT_ROOT), "utf8"));
   assert.equal(m.name, "clear-day");
   assert.deepEqual(m.plugins.map((p) => [p.name, p.source]), [
     ["clear-day-for-directors", "./directors"],
     ["clear-day-for-parents", "./parents"],
+    ["clear-day-family", "./family"],
   ]);
 });
 test("marketplace-json: missing or invalid file fails", () => {
