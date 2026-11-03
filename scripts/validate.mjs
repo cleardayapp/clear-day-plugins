@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Structural validator for the directors and parents plugins. Plain Node, no dependencies.
+// Structural validator for the directors, parents and family plugins. Plain Node, no dependencies.
 // Usage: node scripts/validate.mjs [repoRoot]
 import fs from "node:fs";
 import path from "node:path";
@@ -10,6 +10,7 @@ import {
   PLUGINS,
   isText,
   parseFrontmatter,
+  guardrailsFileFor,
   readGuardrails,
   readJson,
   readText,
@@ -102,8 +103,15 @@ export function validate(root = DEFAULT_ROOT) {
   const errors = [];
   const err = (rule, where, msg) => errors.push(`${rule}: ${path.relative(root, where) || "."}: ${msg}`);
 
-  const guardrails = readGuardrails(root);
-  if (!guardrails) err("guardrails-source", path.join(root, "shared", "guardrails.md"), "missing or empty");
+  // Each plugin's skills carry one guardrail file verbatim (guardrailsFileFor).
+  const guardrailsByFile = new Map();
+  for (const slug of Object.keys(PLUGINS)) {
+    const fileName = guardrailsFileFor(slug);
+    if (guardrailsByFile.has(fileName)) continue;
+    const text = readGuardrails(root, fileName);
+    guardrailsByFile.set(fileName, text);
+    if (!text) err("guardrails-source", path.join(root, "shared", fileName), "missing or empty");
+  }
 
   const rulesFile = path.join(root, "shared", "director-rules.md");
   const rules = fs.existsSync(rulesFile) ? readText(rulesFile).trim() : null;
@@ -121,6 +129,8 @@ export function validate(root = DEFAULT_ROOT) {
       continue;
     }
     const files = walk(dir);
+    const guardrailsFile = guardrailsFileFor(slug);
+    const guardrails = guardrailsByFile.get(guardrailsFile);
 
     // Size and count limits.
     if (files.length > LIMITS.pluginFiles) err("file-count", dir, `${files.length} files exceeds ${LIMITS.pluginFiles}`);
@@ -309,7 +319,7 @@ export function validate(root = DEFAULT_ROOT) {
         err("skill-description", file, `description is ${description.length} chars, max ${LIMITS.skillDescriptionChars}`);
       const lines = text.replace(/\n$/, "").split("\n").length;
       if (lines >= LIMITS.skillLines) err("skill-lines", file, `${lines} lines, must be under ${LIMITS.skillLines}`);
-      if (guardrails && !text.includes(guardrails)) err("guardrail-missing", file, "shared/guardrails.md block not found verbatim");
+      if (guardrails && !text.includes(guardrails)) err("guardrail-missing", file, `shared/${guardrailsFile} block not found verbatim`);
       const rulesAt = text.split("\n").indexOf(RULES_HEADING);
       if (rulesAt !== -1) {
         const lines = text.split("\n").slice(rulesAt);

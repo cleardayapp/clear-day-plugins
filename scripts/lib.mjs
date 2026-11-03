@@ -20,7 +20,21 @@ export const PLUGINS = {
     url: "https://mcp.useclearday.com/mcp/find",
     openaiAuth: { type: "none" },
   },
+  family: {
+    name: "clear-day-family",
+    displayName: "Clear Day Family",
+    url: "https://mcp.useclearday.com/mcp/family",
+    openaiAuth: { type: "oauth", client: { mode: "cimd" } },
+    // Signed in as one family, whose own children's first names the tools
+    // return: its skills carry the family variant of the guardrail block.
+    guardrails: "guardrails-family.md",
+  },
 };
+
+/** The guardrail file a plugin's skills must carry verbatim. */
+export function guardrailsFileFor(slug) {
+  return PLUGINS[slug]?.guardrails ?? "guardrails.md";
+}
 
 export function walk(dir) {
   const out = [];
@@ -65,8 +79,8 @@ export function readJson(file) {
   }
 }
 
-export function readGuardrails(root) {
-  const file = path.join(root, "shared", "guardrails.md");
+export function readGuardrails(root, fileName = "guardrails.md") {
+  const file = path.join(root, "shared", fileName);
   if (!fs.existsSync(file)) return null;
   return readText(file).trim();
 }

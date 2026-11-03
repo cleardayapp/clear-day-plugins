@@ -17,6 +17,12 @@
       "source": "./parents",
       "description": "Skills for families: find, view and compare licensed child care providers, see open tour times and request a tour.",
       "category": "productivity"
+    },
+    {
+      "name": "clear-day-family",
+      "source": "./family",
+      "description": "Skills for a family signed in to Clear Day Family: what's coming up, a child's schedule and day, reminders.",
+      "category": "productivity"
     }
   ]
 }

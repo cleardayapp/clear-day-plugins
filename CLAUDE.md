@@ -1,6 +1,6 @@
 # Contributor and agent notes
 
-Public repo for the `clear-day-for-directors` (`directors/`) and `clear-day-for-parents` (`parents/`) plugins. Read `README.md`, `templates/SKILL.template.md` and `shared/guardrails.md` before changing anything.
+Public repo for the `clear-day-for-directors` (`directors/`), `clear-day-for-parents` (`parents/`) and `clear-day-family` (`family/`) plugins. Read `README.md`, `templates/SKILL.template.md` and `shared/guardrails.md` before changing anything.
 
 ## Check
 
@@ -9,7 +9,7 @@ Public repo for the `clear-day-for-directors` (`directors/`) and `clear-day-for-
 ## Conventions
 
 - Plugin names and folder names are permanent. Never rename them.
-- Skills: folder name equals `name`, description under 1,024 characters, body under 500 lines, guardrail block verbatim from `shared/guardrails.md`, exactly one `Tools used:` line.
+- Skills: folder name equals `name`, description under 1,024 characters, body under 500 lines, guardrail block verbatim from `shared/guardrails.md` (`shared/guardrails-family.md` for `family/` skills), exactly one `Tools used:` line.
 - American English. Say "the assistant". Refer to other apps by category, never brand. No pricing or promotional wording.
 - Never invent tool names or input fields. Use only the tool names a skill's task gives you and describe inputs generically.
 - Public repo: never commit secrets, internal hostnames, staging URLs, test-account emails, issue-tracker links or internal ticket chatter.
